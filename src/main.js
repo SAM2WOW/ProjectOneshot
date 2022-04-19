@@ -4,9 +4,10 @@ var config = {
         mode: Phaser.Scale.FIT,
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1920,
-        height: 1080
+        width: 360,
+        height: 640
     },
+    pixelArt: true,
     physics: {
         default: "arcade",
         arcade: {
@@ -14,13 +15,6 @@ var config = {
         }
     },
     scene: [Menu, Play],
-    callbacks: {
-        postBoot: function (game) {
-          // In v3.15, you have to override Phaser's default styles
-          game.canvas.style.width = '100%';
-          game.canvas.style.height = '100%';
-        }
-    }
 };
 
 let game = new Phaser.Game(config);
@@ -31,4 +25,4 @@ let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
 // reserve keyboard vars
-let keyF, keyR, keyM, keyLEFT, keyRIGHT;
+let keyESC, keySPACE;

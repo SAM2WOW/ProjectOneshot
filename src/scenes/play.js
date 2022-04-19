@@ -39,6 +39,9 @@ class Play extends Phaser.Scene {
         this.walls.forEach(wall => {
             wall.update(time, delta);
         });
+
+        // update camera
+        this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
     }
 
     stopGame() {

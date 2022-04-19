@@ -1,6 +1,13 @@
 class Play extends Phaser.Scene {
     constructor() {
         super("play");
+
+        // game states
+        this.gameOver = false;
+
+        game.scrollingSpeed = 0.003;
+
+        this.walls = [];
     }
 
     lerp(start, end, amt) {
@@ -8,23 +15,32 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-
-    }
+        this.load.image('camera', 'assets/sprites/temp_camera.gif');
+        this.load.image('wall', 'assets/sprites/temp_wall.png');
+    }   
 
     create() {
+        // add camera sprite
+        this.cameraSprite = this.add.image(game.config.width / 2, game.config.height - 50, 'camera');
+        this.cameraSprite.setScale(3);
+        this.cameraSprite.setDepth(20);
+        this.cameraSprite.setAlpha(0.5);
+
+        // add multiple scrolling wall
+        for (let i = 1; i <= 8; i++) {
+            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall', i * 1500);
+            this.walls.push(wall);
+        }
     }
 
     update(time, delta) {
-        this.ghostScale *= 1.003;
-        console.log(delta);
+        // update all walls
+        this.walls.forEach(wall => {
+            wall.update(time, delta);
+        });
+    }
 
-        if (this.ghostScale >= 1.0) {
-            this.ghostScale = 0.01;
-        }
-
-        this.ghost.setScale(this.lerp(0.01, 0.3, this.ghostScale));
-
-        this.shadow.setScale(this.lerp(0, 40, this.ghostScale));
-        this.shadow.y = this.lerp(game.config.height / 2, game.config.height, this.ghostScale);
+    stopGame() {
+        this.gameOver = true;
     }
 }

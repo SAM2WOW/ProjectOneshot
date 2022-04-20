@@ -6,7 +6,7 @@ class Wall extends Phaser.GameObjects.Sprite {
         this.progress = progress;
 
         this.setScale(0.05);
-        this.setTintFill(0x000000);
+        this.setTint(0x000000);
 
         this.setRotation((Math.random() * 0.05) - 0.025);
     }
@@ -28,7 +28,8 @@ class Wall extends Phaser.GameObjects.Sprite {
         // head bounce
         this.setPosition(space.x, space.y);
         
-        this.setTintFill(space.curvedProgress * 255);
-        //this.tint = Phaser.Display.Color.Interpolate.ColorWithColor(Phaser.Display.Color.HexStringToColor('#ffffff'), Phaser.Display.Color.HexStringToColor('#000000'), 100, this.progress * 100);
+        // shading
+        let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
+        this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
     }
 }

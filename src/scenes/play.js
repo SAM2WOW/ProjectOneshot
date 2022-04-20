@@ -32,6 +32,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('camera', 'assets/sprites/temp_camera.gif');
         this.load.image('wall', 'assets/sprites/temp_wall.png');
+        this.load.image('frame', 'assets/sprites/temp_frame.png');
     }   
 
     create() {
@@ -49,9 +50,9 @@ class Play extends Phaser.Scene {
         this.cameraSprite.setAlpha(0.5);
 
         // add frame
-        this.frame = new Frame(this, 0, 0, 'camera');
+        this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(50);
-
+        this.frame.setAlpha(0.3);
 
 
         // add ghost

@@ -6,7 +6,7 @@ class Wall extends Phaser.GameObjects.Sprite {
         this.progress = progress;
 
         this.setScale(0.05);
-        this.tint = 0x000000;
+        this.setTintFill(0x000000);
 
         this.setRotation((Math.random() * 0.05) - 0.025);
     }
@@ -15,19 +15,20 @@ class Wall extends Phaser.GameObjects.Sprite {
         this.progress += game.scrollingSpeed * delta / 16;
 
         if (this.progress >= 1) {
-            this.progress = 0.01;
+            this.progress = 0;
         }
 
-        //console.log(this.progress);
+        // scaling and depth sorting
+        this.setDepth(10 * this.progress);
 
-        this.setDepth(5 * this.progress);
-        this.setScale(this.scene.lerp(0.05, 2, this.progress * this.progress));
-        //this.tint = Phaser.Display.Color.Interpolate.ColorWithColor(Phaser.Display.Color.HexStringToColor('#ffffff'), Phaser.Display.Color.HexStringToColor('#000000'), 100, this.progress * 100);
+        let space = this.scene.get3DSpace(0, 0, time, this.progress);
+        this.setScale(this.scene.lerp(0.05, 1.8, space.curvedProgress));
+        //this.setDisplaySize(this.scene.lerp(0, 592, this.progress), this.scene.lerp(0, 640, this.progress));
 
         // head bounce
-        //console.log(Math.abs(Math.sin(this.progress * 20)));
-        this.setPosition(this.x, game.config.height / 2 - Math.abs(Math.sin(time / 200) * 20) * this.progress);
-
-        this.tint = 0xffffff;
+        this.setPosition(space.x, space.y);
+        
+        this.setTintFill(space.curvedProgress * 255);
+        //this.tint = Phaser.Display.Color.Interpolate.ColorWithColor(Phaser.Display.Color.HexStringToColor('#ffffff'), Phaser.Display.Color.HexStringToColor('#000000'), 100, this.progress * 100);
     }
 }

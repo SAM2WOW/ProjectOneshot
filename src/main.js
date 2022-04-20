@@ -5,16 +5,23 @@ var config = {
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 360,
-        height: 640
+        height: 640,
     },
     pixelArt: true,
     physics: {
         default: "arcade",
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: [Menu, Play],
+    callbacks: {
+        postBoot: function (game) {
+          // In v3.15, you have to override Phaser's default styles
+          game.canvas.style.width = '100%';
+          game.canvas.style.height = '100%';
+        }
+    }
 };
 
 let game = new Phaser.Game(config);

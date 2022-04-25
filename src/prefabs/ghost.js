@@ -9,6 +9,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         // variables
         this.progress = 0;
         this.health = 1;
+        this.perfectShot = false;
 
         this.xOffset = x;
         this.yOffset = y;
@@ -35,11 +36,13 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         
         // shading
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
-        // perfect timeing tint
-        if (this.progress >= 0.85 && this.progress <= 0.95) {
-            this.setTint(Phaser.Display.Color.HexStringToColor("#edb526"));
+        // perfect timeing tint (between 0.82 and 0.95)
+        if (this.progress >= 0.82 && this.progress <= 0.95) {
+            this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
+            this.perfectShot = true;
         } else {
             this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
+            this.perfectShot = false;
         }
     }
 
@@ -51,8 +54,8 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        // perfect shot (between 0.85 and 0.95)
-        if (this.progress >= 0.85 && this.progress <= 0.95) {
+        // perfect shot 
+        if (this.perfectShot) {
         }
 
         this.health -= 1;

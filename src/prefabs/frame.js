@@ -61,5 +61,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
             ghost.damage();
         });
         this.scene.ghosts.clear(true, true);
+        this.scene.spawnGhost();
+        this.scene.spawnGhost();
     }
 }

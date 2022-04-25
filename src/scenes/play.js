@@ -33,6 +33,7 @@ class Play extends Phaser.Scene {
         this.load.image('camera', 'assets/sprites/temp_camera.gif');
         this.load.image('wall', 'assets/sprites/temp_wall.png');
         this.load.image('frame', 'assets/sprites/temp_frame.png');
+        this.load.image('ghost', 'assets/sprites/temp_ghost.png');
     }   
 
     create() {
@@ -90,7 +91,7 @@ class Play extends Phaser.Scene {
     spawnGhost() {
         let x = Math.random() * 200;
         let y = Math.random() * 200;
-        let ghost = new Ghost(this, x - 200, y - 200, 'camera');
+        let ghost = new Ghost(this, x - 200, y - 200, 'ghost');
         //this.ghosts.push(ghost);
         this.ghosts.add(ghost);
 

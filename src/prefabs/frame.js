@@ -60,7 +60,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
             ghosts[i].damage(this);
         }
 
-        // remove locked ghosts
+        // remove locked ghosts (reversely so the array doesn't break duh)
         for (let i = this.lockedGhosts.length - 1; i >= 0; i--) {
             this.scene.ghosts.remove(this.lockedGhosts[i], true);
         }

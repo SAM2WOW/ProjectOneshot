@@ -13,7 +13,6 @@ class Play extends Phaser.Scene {
 
         this.walls = [];
         this.ghosts = new Phaser.GameObjects.Group(this);
-
     }
 
     // helpful lerp function

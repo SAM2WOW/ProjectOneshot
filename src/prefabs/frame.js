@@ -21,7 +21,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         // UI
         this.cooldownBar = scene.add.text(this.x, this.y, "Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBar.setDepth(100);
-        this.chargeBar = scene.add.text(this.x, this.y, "Charge -" + this.charge + "");
+        this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");
         this.chargeBar.setDepth(100);
 
         this.setPosition(x, y);
@@ -45,7 +45,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         // cooldown bar
         this.cooldownBar.setPosition(this.x - 50, this.y + 100);
         this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
-        this.chargeBar.setText("Charge -" + Math.floor(this.charge) + "p");
+        this.chargeBar.setText("Charge " + Math.floor(this.charge) + "p");
     }
 
     shoot() {
@@ -55,13 +55,14 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         
         // damage all ghosts
         let ghosts = this.scene.ghosts.getChildren();
-        let counts = Math.min(ghosts.length, Math.floor(this.charge));
-        console.log(ghosts);
-        console.log(ghosts.length);
-        while (counts > 0) {
-            counts--;
+        for (let i = 0; i < Math.min(ghosts.length, Math.floor(this.charge)); i++) {
             console.log('shoot');
-            ghosts.shift().damage();
+            ghosts[i].damage(this);
+        }
+
+        // remove locked ghosts
+        for (let i = this.lockedGhosts.length - 1; i >= 0; i--) {
+            this.scene.ghosts.remove(this.lockedGhosts[i], true);
         }
         
         this.charge = 1;

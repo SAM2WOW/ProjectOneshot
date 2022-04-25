@@ -5,6 +5,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         
         this.setDepth(20);
+        this.setAlpha(0.9);
 
         // variables
         this.progress = 0;
@@ -29,7 +30,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(10 * this.progress);
         
         let space = this.scene.get3DSpace(this.xOffset, this.yOffset, time, this.progress);
-        this.setScale(this.scene.lerp(0.05, 2, space.curvedProgress));
+        this.setScale(this.scene.lerp(0.01, 1, space.curvedProgress));
         
         // head bounce
         this.setPosition(space.x, space.y);
@@ -46,7 +47,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    damage() {
+    damage(frame) {
         console.log("Trying to kill this shit at " + this.progress);
 
         // bad shot
@@ -60,14 +61,8 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         this.health -= 1;
         if (this.health <= 0) {
-            //this.scene.ghosts.splice(this.scene.ghosts.indexOf(this), 1);
-            //console.log(this.scene.ghosts);
             console.log("ghost died");
-            
-            this.scene.spawnGhost();
-
-            this.scene.ghosts.remove(this, true);
-            this.destroy();
+            frame.lockedGhosts.push(this);
         }
     }
 }

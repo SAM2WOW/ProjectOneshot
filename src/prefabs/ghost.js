@@ -63,6 +63,11 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             //this.scene.ghosts.splice(this.scene.ghosts.indexOf(this), 1);
             //console.log(this.scene.ghosts);
             console.log("ghost died");
+            
+            this.scene.spawnGhost();
+
+            this.scene.ghosts.remove(this, true);
+            this.destroy();
         }
     }
 }

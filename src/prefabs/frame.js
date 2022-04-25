@@ -7,20 +7,22 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
         scene.input.on('pointerup', function (pointer) {
-            if (pointer.leftButtonReleased() && this.charge > 0) {
+            if (pointer.leftButtonReleased()) {
                 this.shoot();
             }
         }, this);
 
         // variables
         this.lockedGhosts = [];
-        this.charge = 0;
+        this.charge = 1;
         this.coolDown = 0;  // cooldown in ms
         this.totalCoolDown = 1000;
 
         // UI
         this.cooldownBar = scene.add.text(this.x, this.y, "Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBar.setDepth(100);
+        this.chargeBar = scene.add.text(this.x, this.y, "Charge -" + this.charge + "");
+        this.chargeBar.setDepth(100);
 
         this.setPosition(x, y);
     }
@@ -36,32 +38,35 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (pointer.leftButtonDown() && this.coolDown <= 0) {
-            this.charge = Phaser.Math.Clamp((this.charge + delta / 1500), 0, 1);
+            this.charge = Math.min(this.charge + delta / 400, 5);
             //this.setScale(this.charge * 3 + 1);
         }
 
         // cooldown bar
         this.cooldownBar.setPosition(this.x - 50, this.y + 100);
         this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
+        this.chargeBar.setText("Charge -" + Math.floor(this.charge) + "p");
     }
 
     shoot() {
-        this.totalCoolDown = this.scene.lerp(2000, 1000, this.charge);
-        
-        this.charge = 0;
-        //this.setScale(1);
-        
-        this.coolDown = this.totalCoolDown;
+        if (this.coolDown > 0) {
+            return;
+        }
         
         // damage all ghosts
-        console.log(this.scene.ghosts.getChildren());
         let ghosts = this.scene.ghosts.getChildren();
-        ghosts.forEach(ghost => {
+        let counts = Math.min(ghosts.length, Math.floor(this.charge));
+        console.log(ghosts);
+        console.log(ghosts.length);
+        while (counts > 0) {
+            counts--;
             console.log('shoot');
-            ghost.damage();
-        });
-        this.scene.ghosts.clear(true, true);
-        this.scene.spawnGhost();
-        this.scene.spawnGhost();
+            ghosts.shift().damage();
+        }
+        
+        this.charge = 1;
+
+        this.totalCoolDown = this.charge * 800;
+        this.coolDown = this.totalCoolDown;        
     }
 }

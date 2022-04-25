@@ -46,18 +46,20 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
     }
 
     shoot() {
-        console.log('shoot');
-
         this.totalCoolDown = this.scene.lerp(2000, 1000, this.charge);
-
+        
         this.charge = 0;
         //this.setScale(1);
         
         this.coolDown = this.totalCoolDown;
-
+        
         // damage all ghosts
-        this.scene.ghosts.forEach(ghost => {
+        console.log(this.scene.ghosts.getChildren());
+        let ghosts = this.scene.ghosts.getChildren();
+        ghosts.forEach(ghost => {
+            console.log('shoot');
             ghost.damage();
         });
+        this.scene.ghosts.clear(true, true);
     }
 }

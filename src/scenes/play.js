@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         game.turningOffset = 0;
 
         this.walls = [];
-        this.ghosts = [];
+        this.ghosts = new Phaser.GameObjects.Group(this);
 
     }
 
@@ -57,6 +57,8 @@ class Play extends Phaser.Scene {
 
         // add ghost
         this.spawnGhost();
+        this.spawnGhost();
+        this.spawnGhost();
     }
 
     update(time, delta) {
@@ -77,7 +79,7 @@ class Play extends Phaser.Scene {
         this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
 
         // update ghosts
-        this.ghosts.forEach(ghost => {
+        this.ghosts.getChildren().forEach(ghost => {
             ghost.update(time, delta);
         });
 
@@ -89,7 +91,9 @@ class Play extends Phaser.Scene {
         let x = Math.random() * 200;
         let y = Math.random() * 200;
         let ghost = new Ghost(this, x - 200, y - 200, 'camera');
-        this.ghosts.push(ghost);
+        //this.ghosts.push(ghost);
+        this.ghosts.add(ghost);
+
     }
 
     stopGame() {

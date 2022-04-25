@@ -29,7 +29,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(10 * this.progress);
         
         let space = this.scene.get3DSpace(this.xOffset, this.yOffset, time, this.progress);
-        this.setScale(this.scene.lerp(0.05, 3, space.curvedProgress));
+        this.setScale(this.scene.lerp(0.05, 2, space.curvedProgress));
         
         // head bounce
         this.setPosition(space.x, space.y);

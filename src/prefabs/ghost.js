@@ -84,6 +84,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
             this.scene.spawnGhost();
         } else {
+            this.angle += 45;
             this.scene.tweens.add({
                 targets: this,
                 progress: {from: this.progress, to: 0.6},

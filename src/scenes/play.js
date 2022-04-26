@@ -43,15 +43,15 @@ class Play extends Phaser.Scene {
             this.walls.push(wall);
         }
 
-        // add camera sprite
+        // add camera
         this.cameraSprite = this.add.image(game.config.width / 2, game.config.height - 50, 'camera');
         this.cameraSprite.setScale(3);
-        this.cameraSprite.setDepth(50);
+        this.cameraSprite.setDepth(100);
         this.cameraSprite.setAlpha(0.5);
 
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
-        this.frame.setDepth(50);
+        this.frame.setDepth(100);
         this.frame.setAlpha(0.3);
 
 
@@ -76,7 +76,7 @@ class Play extends Phaser.Scene {
         });
 
         // update camera
-        this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
+        //this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
 
         // update ghosts
         this.ghosts.getChildren().forEach(ghost => {

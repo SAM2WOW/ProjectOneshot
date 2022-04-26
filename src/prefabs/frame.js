@@ -12,9 +12,16 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
             }
         }, this);
 
+        scene.input.on('pointerdown', function (pointer) {
+            if (pointer.leftButtonDown() && this.coolDown <= 0) {
+                this.lock();
+            }
+        }, this);
+
         // variables
         this.lockedGhosts = [];
-        this.charge = 1;
+        this.killedGhosts = [];
+        this.charge = 0;
         this.coolDown = 0;  // cooldown in ms
         this.totalCoolDown = 1000;
 
@@ -38,8 +45,12 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (pointer.leftButtonDown() && this.coolDown <= 0) {
-            this.charge = Math.min(this.charge + delta / 400, 5);
-            //this.setScale(this.charge * 3 + 1);
+            //this.charge = Math.min(this.charge + delta / 400, 5);
+            this.charge = this.charge + delta / 400;
+            if (this.charge >= 1) {
+                this.charge = 0;
+                this.lock();
+            }
         }
 
         // cooldown bar
@@ -48,26 +59,40 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         this.chargeBar.setText("Charge " + Math.floor(this.charge) + "p");
     }
 
+    lock() {
+        console.log('lock');
+        // find all ghosts in range
+        let ghosts = this.scene.ghosts.getChildren();
+        for (let i = 0; i < ghosts.length; i++) {
+            let result = ghosts[i].lockOn();
+            if (result) {
+                this.lockedGhosts.push(ghosts[i]);
+                break;
+            }
+        }
+    }
+
     shoot() {
         if (this.coolDown > 0) {
             return;
         }
         
+        this.totalCoolDown = this.lockedGhosts.length * 400;
+        this.coolDown = this.totalCoolDown;   
+
         // damage all ghosts
-        let ghosts = this.scene.ghosts.getChildren();
-        for (let i = 0; i < Math.min(ghosts.length, Math.floor(this.charge)); i++) {
+        for (let i = 0; i < this.lockedGhosts.length; i++) {
             console.log('shoot');
-            ghosts[i].damage(this);
+            this.lockedGhosts[i].damage(this);
         }
+        this.lockedGhosts = [];
 
         // remove locked ghosts (reversely so the array doesn't break duh)
-        for (let i = this.lockedGhosts.length - 1; i >= 0; i--) {
-            this.scene.ghosts.remove(this.lockedGhosts[i], true);
+        for (let i = this.killedGhosts.length - 1; i >= 0; i--) {
+            this.scene.ghosts.remove(this.killedGhosts[i], true);
         }
+        this.killedGhosts = [];
         
-        this.charge = 1;
-
-        this.totalCoolDown = this.charge * 800;
-        this.coolDown = this.totalCoolDown;        
+        this.charge = 0;
     }
 }

@@ -11,6 +11,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.progress = 0;
         this.health = Math.round(Math.random() * 3);
         this.perfectShot = false;
+        this.locked = false;
 
         this.xOffset = x;
         this.yOffset = y;
@@ -37,14 +38,28 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         
         // shading
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
+
         // perfect timeing tint (between 0.82 and 0.95)
-        if (this.progress >= 0.82 && this.progress <= 0.95) {
+        
+        if (this.progress >= 0.80 && this.progress <= 0.90) {
             this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             this.perfectShot = true;
+        } else if (this.locked) {
+            this.setTint(Phaser.Display.Color.GetColor(134, 255, 32));
         } else {
             this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
             this.perfectShot = false;
         }
+    }
+
+    lockOn() {
+        // bad shot
+        if (this.locked || this.progress < 0.5) {
+            return false;
+        }
+        
+        this.locked = true;
+        return true;
     }
 
     damage(frame) {
@@ -55,16 +70,17 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        // perfect shot 
+        // perfect shot make combos
         if (this.perfectShot) {
         }
 
         this.health -= 1;
-
+        this.locked = false;
+        
         // check for health results
         if (this.health <= 0) {
             console.log("ghost died");
-            frame.lockedGhosts.push(this);
+            frame.killedGhosts.push(this);
 
             this.scene.spawnGhost();
         } else {

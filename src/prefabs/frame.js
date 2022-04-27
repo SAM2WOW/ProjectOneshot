@@ -114,7 +114,9 @@ class Frame extends Phaser.GameObjects.Sprite {
         let ghosts = this.scene.ghosts.getChildren();
         let cloestDistance = 0;
         let cloest = null;
+        console.log(ghosts);
         for (let i = 0; i < ghosts.length; i++) {
+            console.log("~~ Checking ghosts at " + i);
             if (ghosts[i].progress > cloestDistance && ghosts[i].checkLock()) {
                 cloestDistance = ghosts[i].progress;
                 cloest = ghosts[i];
@@ -122,6 +124,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         }
         
         if (cloest != null) {
+            cloest.lock();
             this.lockedGhosts.push(cloest);
 
             // this.scene.tweens.add({

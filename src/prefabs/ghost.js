@@ -30,6 +30,13 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             default:
         }
 
+        // locking visual
+        this.lockHint = scene.add.image(0, 0, 'frame');
+        this.lockHint.setScale(0.5);
+        this.lockHint.setVisible(false);
+        this.lockHint.setAlpha(0.5);
+        this.lockHint.setDepth(100);
+
         // variables
         this.progress = 0;
         this.health = Math.round(Math.random() * 3);
@@ -38,7 +45,6 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         this.xOffset = x;
         this.yOffset = y;
-
 
         this.speedMultiplier = 1;
     }
@@ -67,6 +73,10 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         
         // head bounce
         this.setPosition(space.x, space.y);
+
+        // lock hint visual
+        this.lockHint.setPosition(this.x, this.y);
+        this.lockHint.setScale(this.scene.lerp(0.1, 1, space.curvedProgress));
         
         // shading
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
@@ -84,12 +94,20 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
     checkLock() {
         // bad shot
         if (this.locked || this.progress < 0.5) {
-            console.log("bad locking for this boy");
+            console.log("-- bad locking for this boy");
+            console.log("Locking State: " + this.locked);
+            console.log("Progress State: " + this.progress);
+            console.log("Health state: " + this.health);
+            console.log("-----------------------------------------------------");
             return false;
         }
-        
-        this.locked = true;
+
         return true;
+    }
+
+    lock() {
+        this.locked = true;
+        this.lockHint.setVisible(true);
     }
 
     damage(frame) {
@@ -116,6 +134,9 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
                 this.scene.films += 1;
             }
 
+            // kill the visual 
+            this.lockHint.destroy();
+
             frame.killedGhosts.push(this);
             
             this.scene.spawnGhost();
@@ -130,5 +151,6 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         }
         
         this.locked = false;
+        this.lockHint.setVisible(false);
     }
 }

@@ -66,6 +66,12 @@ class Play extends Phaser.Scene {
         this.distanceText = this.add.text(game.config.width / 2, 0, 'Distance: ' + Math.round(this.distance) + 'm');
         this.distanceText.setDepth(100);
         this.distanceText.setOrigin(0.5, 0);
+
+        // add health text
+        this.healthText = this.add.text(10, game.config.height - 50, "❤️".repeat(this.health));
+        this.healthText.setDepth(100);
+        this.healthText.setFontSize(30);
+        this.healthText.setOrigin(0, 0);
     }
 
     update(time, delta) {
@@ -105,6 +111,15 @@ class Play extends Phaser.Scene {
         //this.ghosts.push(ghost);
         this.ghosts.add(ghost);
 
+    }
+
+    damage() {
+        this.health--;
+        this.healthText.setText("❤️".repeat(this.health));
+
+        if (this.health <= 0) {
+            this.stopGame();
+        }
     }
 
     stopGame() {

@@ -1,4 +1,4 @@
-class Frame extends Phaser.Physics.Arcade.Sprite {
+class Frame extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.add.existing(this);
@@ -31,6 +31,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
                     duration: 300,
                     ease: 'Back.easeInOut',
                 });
+
+                this.scene.cameras.main.shake(100, 0.005);
             }
         }, this);
 

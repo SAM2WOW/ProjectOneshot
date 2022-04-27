@@ -7,6 +7,29 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(20);
         this.setAlpha(0.9);
 
+        // ghost type
+        const normalGhost = 0;
+        const heartGhost = 1;
+        const filmGhost = 2;
+        const fastGhost = 3;
+        this.type = normalGhost;
+
+        switch (this.type) {
+            case normalGhost:
+
+                break;
+            case heartGhost:
+
+                break;
+            case filmGhost:
+
+                break;
+            case fastGhost:
+
+                break;
+            default:
+        }
+
         // variables
         this.progress = 0;
         this.health = Math.round(Math.random() * 3);
@@ -15,6 +38,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         this.xOffset = x;
         this.yOffset = y;
+
 
         this.speedMultiplier = 1;
     }
@@ -25,7 +49,13 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         // ghost attack!
         if (this.progress >= 1.2) {
-            this.scene.stopGame();
+            this.scene.damage();
+
+            console.log("ghost killed you haha");
+            this.scene.ghosts.remove(this, true);
+
+            // screen shake
+            this.scene.cameras.main.shake(200, 0.008);
         }
 
         

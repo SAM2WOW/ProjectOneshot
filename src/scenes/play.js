@@ -4,6 +4,7 @@ class Play extends Phaser.Scene {
 
         // player variables
         this.health = 3;
+        this.films = 0;
         this.distance = 0;
 
         // game states

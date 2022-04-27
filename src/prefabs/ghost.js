@@ -106,6 +106,17 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         // check for health results
         if (this.health <= 0) {
             console.log("ghost died");
+
+            // if ghost is a heart, add a heart
+            if (this.type === heartGhost) {
+                this.scene.health += 1;
+            }
+
+            // if ghost is a film, add a film
+            if (this.type === filmGhost) {
+                this.scene.films += 1;
+            }
+
             frame.killedGhosts.push(this);
             
             this.scene.spawnGhost();

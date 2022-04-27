@@ -15,10 +15,12 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         this.xOffset = x;
         this.yOffset = y;
+
+        this.speedMultiplier = 1;
     }
 
     update(time, delta) {
-        this.progress += game.scrollingSpeed * delta / 16;
+        this.progress += game.scrollingSpeed * this.speedMultiplier * (delta / 16);
         //console.log(this.progress);
 
         // ghost attack!
@@ -50,7 +52,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    lockOn() {
+    checkLock() {
         // bad shot
         if (this.locked || this.progress < 0.5) {
             return false;
@@ -63,24 +65,18 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
     damage(frame) {
         console.log("Trying to kill this shit at " + this.progress + "with health" + this.health);
 
-        // bad shot
-        if (this.progress < 0.5) {
-            return;
-        }
-
         // perfect shot make combos
         if (this.perfectShot) {
             frame.coolDown -= 400;
         }
 
         this.health -= 1;
-        this.locked = false;
         
         // check for health results
         if (this.health <= 0) {
             console.log("ghost died");
             frame.killedGhosts.push(this);
-
+            
             this.scene.spawnGhost();
         } else {
             this.angle += 45;
@@ -88,8 +84,10 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
                 targets: this,
                 progress: {from: this.progress, to: 0.6},
                 duration: 500,
-                ease: 'Power1',
+                ease: 'Circ.easeOut',
             });
         }
+        
+        this.locked = false;
     }
 }

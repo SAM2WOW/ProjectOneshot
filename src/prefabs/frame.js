@@ -13,6 +13,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         this.totalCoolDown = 1000;
 
         this.setAlpha(0);
+        this.setScale(0);
 
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
@@ -27,7 +28,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
                 scene.tweens.add({
                     targets: scene.cameraSprite,
                     y: game.config.height - 50,
-                    duration: 200,
+                    duration: 300,
+                    ease: 'Back.easeInOut',
                 });
             }
         }, this);
@@ -44,6 +46,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
                     targets: scene.cameraSprite,
                     y: game.config.height - 150,
                     duration: 200,
+                    ease: 'Cubic.easeOut',
                 });
             }
         }, this);
@@ -98,24 +101,29 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
     }
 
     lock() {
-        console.log('lock');
         // find all ghosts in range
         let ghosts = this.scene.ghosts.getChildren();
+        let cloestDistance = 0;
+        let cloest = null;
         for (let i = 0; i < ghosts.length; i++) {
-            let result = ghosts[i].lockOn();
-            if (result) {
-                this.lockedGhosts.push(ghosts[i]);
-
-                // this.scene.tweens.add({
-                //     targets: this.scene.cameraSprite,
-                //     duration: 100,
-                //     scaleY: {from: 3, to: 1},
-                //     ease: 'Power2',
-                //     yoyo: true,
-                // });
-
-                break;
+            if (ghosts[i].progress > cloestDistance) {
+                if (ghosts[i].checkLock()) {
+                    cloestDistance = ghosts[i].progress;
+                    cloest = ghosts[i];
+                }
             }
+        }
+        
+        if (cloest != null) {
+            this.lockedGhosts.push(cloest);
+
+            // this.scene.tweens.add({
+            //     targets: this.scene.cameraSprite,
+            //     duration: 100,
+            //     scaleY: {from: 3, to: 1},
+            //     ease: 'Power2',
+            //     yoyo: true,
+            // });
         }
     }
 
@@ -125,7 +133,6 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
 
         // damage all ghosts
         for (let i = 0; i < this.lockedGhosts.length; i++) {
-            console.log('shoot');
             this.lockedGhosts[i].damage(this);
         }
         this.lockedGhosts = [];
@@ -148,10 +155,9 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.tweens.add({
             targets: this.flash,
-            duration: 100,
-            alpha: {from: 0, to: 1},
-            ease: 'Power2',
-            yoyo: true,
+            duration: 200,
+            alpha: {from: 1, to: 0},
+            ease: 'Sine.easeIn',
         });
     }
 }

@@ -44,8 +44,6 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         if (this.progress >= 0.80 && this.progress <= 0.90) {
             this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             this.perfectShot = true;
-        } else if (this.locked) {
-            this.setTint(Phaser.Display.Color.GetColor(134, 255, 32));
         } else {
             this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
             this.perfectShot = false;
@@ -72,6 +70,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         // perfect shot make combos
         if (this.perfectShot) {
+            frame.coolDown -= 400;
         }
 
         this.health -= 1;

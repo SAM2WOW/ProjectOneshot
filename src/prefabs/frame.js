@@ -12,6 +12,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         this.coolDown = 0;  // cooldown in ms
         this.totalCoolDown = 1000;
 
+        this.setAlpha(0);
+
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
         scene.input.on('pointerup', function (pointer) {
@@ -19,6 +21,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
                 this.shoot();
 
                 this.charging = false;
+
+                this.setAlpha(0);
 
                 scene.tweens.add({
                     targets: scene.cameraSprite,
@@ -33,6 +37,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
                 this.lock();
 
                 this.charging = true;
+
+                this.setAlpha(0.3);
 
                 scene.tweens.add({
                     targets: scene.cameraSprite,
@@ -58,7 +64,6 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         this.flash.setAlpha(0);
         this.flash.setOrigin(0, 0);
         
-
         this.setPosition(x, y);
     }
 
@@ -70,6 +75,10 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         // lower cooldown
         if (this.coolDown > 0) {
             this.coolDown -= delta;
+
+            this.cooldownBarBG.setFillStyle(0x32a852);
+        } else {
+            this.cooldownBarBG.setFillStyle(0xffffff);
         }
 
         if (this.charging) {
@@ -84,7 +93,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         // cooldown bar
         this.cooldownBar.setPosition(this.x - 50, this.y + 100);
         //this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
-        this.cooldownBar.width = (this.coolDown / this.totalCoolDown) * 100;
+        this.cooldownBar.width = Phaser.Math.Clamp((this.coolDown / this.totalCoolDown), 0, 1) * 100;
         this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
     }
 
@@ -111,12 +120,8 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
     }
 
     shoot() {
-        if (this.coolDown > 0) {
-            return;
-        }
-        
-        this.totalCoolDown = this.lockedGhosts.length * 400;
-        this.coolDown = this.totalCoolDown;   
+        this.totalCoolDown = 800;
+        this.coolDown = this.totalCoolDown;
 
         // damage all ghosts
         for (let i = 0; i < this.lockedGhosts.length; i++) {

@@ -4,6 +4,7 @@ class Play extends Phaser.Scene {
 
         // player variables
         this.health = 3;
+        this.distance = 0;
 
         // game states
         this.gameOver = false;
@@ -52,13 +53,16 @@ class Play extends Phaser.Scene {
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(100);
-        this.frame.setAlpha(0.3);
-
 
         // add ghost
         this.spawnGhost();
         this.spawnGhost();
         this.spawnGhost();
+
+        // add text
+        this.distanceText = this.add.text(game.config.width / 2, 0, 'Distance: ' + Math.round(this.distance) + 'm');
+        this.distanceText.setDepth(100);
+        this.distanceText.setOrigin(0.5, 0);
     }
 
     update(time, delta) {
@@ -85,6 +89,10 @@ class Play extends Phaser.Scene {
 
         // update frame
         this.frame.update(time, delta);
+
+        // update distance traveled
+        this.distance += (delta / 16) * 0.0284;
+        this.distanceText.setText('Distance: ' + Math.round(this.distance) + 'm');
     }
 
     spawnGhost() {

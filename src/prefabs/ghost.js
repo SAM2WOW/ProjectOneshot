@@ -72,7 +72,6 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
 
         // perfect timeing tint (between 0.82 and 0.95)
-        
         if (this.progress >= 0.80 && this.progress <= 0.90) {
             this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             this.perfectShot = true;
@@ -108,12 +107,12 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             console.log("ghost died");
 
             // if ghost is a heart, add a heart
-            if (this.type === heartGhost) {
+            if (this.type === this.heartGhost) {
                 this.scene.health += 1;
             }
 
             // if ghost is a film, add a film
-            if (this.type === filmGhost) {
+            if (this.type === this.filmGhost) {
                 this.scene.films += 1;
             }
 

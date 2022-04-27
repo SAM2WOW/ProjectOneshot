@@ -2,7 +2,7 @@ class Frame extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.add.existing(this);
-        scene.physics.add.existing(this);
+        //scene.physics.add.existing(this);
         
         // variables
         this.lockedGhosts = [];
@@ -13,7 +13,6 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.totalCoolDown = 1000;
 
         this.setAlpha(0);
-        this.setScale(0);
 
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
@@ -50,6 +49,13 @@ class Frame extends Phaser.GameObjects.Sprite {
                     duration: 200,
                     ease: 'Cubic.easeOut',
                 });
+
+                scene.tweens.add({
+                    targets: this,
+                    scale: {from: 1.5, to: 1},
+                    duration: 100,
+                    ease: 'Cubic.easeOut',
+                });
             }
         }, this);
 
@@ -57,8 +63,10 @@ class Frame extends Phaser.GameObjects.Sprite {
         //this.cooldownBar = scene.add.text(this.x, this.y, "Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y + 100, 100, 20, 0x32a852)); 
         this.cooldownBarBG.setDepth(100);
+        this.cooldownBarBG.setPosition(this.x, this.y + 100);
         this.cooldownBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 100, 20, 0xffffff));
         this.cooldownBar.setDepth(100);
+        this.cooldownBar.setPosition(this.x, this.y + 100);
         
         this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");
         this.chargeBar.setDepth(100);
@@ -96,7 +104,6 @@ class Frame extends Phaser.GameObjects.Sprite {
         }
 
         // cooldown bar
-        this.cooldownBar.setPosition(this.x - 50, this.y + 100);
         //this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBar.width = Phaser.Math.Clamp((this.coolDown / this.totalCoolDown), 0, 1) * 100;
         this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
@@ -108,11 +115,9 @@ class Frame extends Phaser.GameObjects.Sprite {
         let cloestDistance = 0;
         let cloest = null;
         for (let i = 0; i < ghosts.length; i++) {
-            if (ghosts[i].progress > cloestDistance) {
-                if (ghosts[i].checkLock() == true) {
-                    cloestDistance = ghosts[i].progress;
-                    cloest = ghosts[i];
-                }
+            if (ghosts[i].progress > cloestDistance && ghosts[i].checkLock()) {
+                cloestDistance = ghosts[i].progress;
+                cloest = ghosts[i];
             }
         }
         
@@ -126,8 +131,8 @@ class Frame extends Phaser.GameObjects.Sprite {
             //     ease: 'Power2',
             //     yoyo: true,
             // });
-            // play explosion sound
 
+            // play explosion sound
             this.sfxfocus = this.scene.sound.add('focus');
             this.sfxfocus.detune = this.lockedGhosts.length * 200;
             this.sfxfocus.volume = this.scene.lerp(0.5, 1, Math.random());

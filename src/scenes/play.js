@@ -64,9 +64,10 @@ class Play extends Phaser.Scene {
         this.spawnGhost();
 
         // add text
-        this.distanceText = this.add.text(game.config.width / 2, 0, 'Distance: ' + Math.round(this.distance) + 'm');
+        this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm');
         this.distanceText.setDepth(100);
         this.distanceText.setOrigin(0.5, 0);
+        this.distanceText.setFontSize(32);
 
         // add health text
         this.healthText = this.add.text(10, game.config.height - 50, "❤️".repeat(this.health));
@@ -102,7 +103,7 @@ class Play extends Phaser.Scene {
 
         // update distance traveled
         this.distance += (delta / 16) * 0.0284;
-        this.distanceText.setText('Distance: ' + Math.round(this.distance) + 'm');
+        this.distanceText.setText(Math.round(this.distance) + 'm');
     }
 
     spawnGhost() {

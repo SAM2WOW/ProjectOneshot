@@ -107,7 +107,7 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         let cloest = null;
         for (let i = 0; i < ghosts.length; i++) {
             if (ghosts[i].progress > cloestDistance) {
-                if (ghosts[i].checkLock()) {
+                if (ghosts[i].checkLock() == true) {
                     cloestDistance = ghosts[i].progress;
                     cloest = ghosts[i];
                 }
@@ -124,6 +124,12 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
             //     ease: 'Power2',
             //     yoyo: true,
             // });
+            // play explosion sound
+
+            this.sfxfocus = this.scene.sound.add('focus');
+            this.sfxfocus.detune = this.lockedGhosts.length * 200;
+            this.sfxfocus.volume = this.scene.lerp(0.5, 1, Math.random());
+            this.sfxfocus.play();
         }
     }
 
@@ -156,8 +162,13 @@ class Frame extends Phaser.Physics.Arcade.Sprite {
         this.scene.tweens.add({
             targets: this.flash,
             duration: 200,
-            alpha: {from: 1, to: 0},
+            alpha: {from: 0.8, to: 0},
             ease: 'Sine.easeIn',
         });
+
+        this.sfxshoot = this.scene.sound.add('shoot');
+        this.sfxshoot.detune = this.scene.lerp(-300, 300, Math.random());
+        this.sfxshoot.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfxshoot.play();
     }
 }

@@ -55,6 +55,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
     checkLock() {
         // bad shot
         if (this.locked || this.progress < 0.5) {
+            console.log("bad locking for this boy");
             return false;
         }
         

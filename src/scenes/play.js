@@ -34,6 +34,9 @@ class Play extends Phaser.Scene {
         this.load.image('wall', 'assets/sprites/temp_wall.png');
         this.load.image('frame', 'assets/sprites/temp_frame.png');
         this.load.image('ghost', 'assets/sprites/temp_ghost.png');
+
+        this.load.audio('shoot', 'assets/sounds/shoot.mp3');
+        this.load.audio('focus', 'assets/sounds/focus.mp3');
     }   
 
     create() {

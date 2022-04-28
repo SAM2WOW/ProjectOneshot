@@ -14,7 +14,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Menu, Play],
+    scene: [Menu, Play, Over],
     callbacks: {
         postBoot: function (game) {
           // In v3.15, you have to override Phaser's default styles

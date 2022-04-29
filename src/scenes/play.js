@@ -53,10 +53,10 @@ class Play extends Phaser.Scene {
         this.cameraSprite.setDepth(100);
         this.cameraSprite.setAlpha(0.5);
 
-        this.dynamicCamera = this.add.renderTexture(game.config.width / 2, game.config.height / 2, game.config.width, game.config.width);
+        this.dynamicCamera = this.add.renderTexture(360, game.config.height / 2, game.config.width, game.config.width);
         this.dynamicCamera.setOrigin(0.5, 0.5);
         this.dynamicCamera.setDepth(110);
-        this.dynamicCamera.setScale(0.2);
+        this.dynamicCamera.setScale(0.1);
 
 
         // add frame
@@ -97,7 +97,7 @@ class Play extends Phaser.Scene {
 
         // update camera and dynamic texture
         this.dynamicCamera.fill(0x000000);
-        this.dynamicCamera.draw(this.children, 0, -game.config.height / 4);
+        this.dynamicCamera.draw(this.children, 0, 0);
         this.dynamicCamera.setPosition(this.cameraSprite.x + 10, this.cameraSprite.y + 25);
         //this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
 
@@ -133,9 +133,8 @@ class Play extends Phaser.Scene {
     }
 
     stopGame() {
-        this.gameOver = true;
+        //this.gameOver = true;
 
         this.scene.start("over");
-        this.gameOver = false;
     }
 }

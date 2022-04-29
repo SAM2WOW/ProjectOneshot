@@ -4,8 +4,8 @@ var config = {
         mode: Phaser.Scale.FIT,
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: window.innerWidth / 3,
-        height: 640,
+        width: window.innerWidth / 1.6875,
+        height: window.innerHeight / 1.6875,
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH
@@ -41,8 +41,11 @@ let keyESC, keySPACE;
 
 
 // const resize = ()=>{
-//     game.scale.resize(window.innerWidth / 3, 640)
+//     game.scale.resize(window.innerWidth / 1.6875, window.innerHeight / 1.6875)
 // }
 
 // window.addEventListener('resize', resize);
 // resize();
+
+console.log(window.innerWidth);
+console.log(window.innerHeight);

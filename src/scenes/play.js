@@ -14,6 +14,9 @@ class Play extends Phaser.Scene {
 
         this.walls = [];
         this.ghosts = new Phaser.GameObjects.Group(this);
+
+        this.cameraOffsetY = 0;
+        this.cameraShake = 20;
     }
 
     // helpful lerp function
@@ -48,7 +51,7 @@ class Play extends Phaser.Scene {
         }
 
         // add camera
-        this.cameraSprite = this.add.image(game.config.width / 2, game.config.height - 50, 'camera');
+        this.cameraSprite = this.add.image(game.config.width / 2, game.config.height, 'camera');
         this.cameraSprite.setScale(3);
         this.cameraSprite.setDepth(100);
         this.cameraSprite.setAlpha(1);
@@ -57,7 +60,6 @@ class Play extends Phaser.Scene {
         this.dynamicCamera.setOrigin(0.5, 0.5);
         this.dynamicCamera.setDepth(110);
         this.dynamicCamera.setScale(0.1);
-
 
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
@@ -88,7 +90,7 @@ class Play extends Phaser.Scene {
         }
 
         // hey make some turns!!
-        //game.turningOffset = Math.cos(time / 600) * 200;
+        game.turningOffset = Math.cos(time / 600) * 200;
 
         // update all walls
         this.walls.forEach(wall => {
@@ -96,10 +98,10 @@ class Play extends Phaser.Scene {
         });
 
         // update camera and dynamic texture
+        this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height + this.cameraOffsetY - Math.abs(Math.sin(time / 200) * this.cameraShake));
         this.dynamicCamera.fill(0x000000);
         this.dynamicCamera.draw(this.children, 0, 0);
         this.dynamicCamera.setPosition(this.cameraSprite.x + 10, this.cameraSprite.y + 25);
-        //this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
 
         // update ghosts
         this.ghosts.getChildren().forEach(ghost => {

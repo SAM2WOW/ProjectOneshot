@@ -8,8 +8,8 @@ class Menu extends Phaser.Scene {
     }
 
     create() {       
-        this.title = this.add.text(game.config.width / 2, game.config.height / 2 - 100, ["SPOOKY", "PICTURE", "GAME"]);
-        this.title.setOrigin(0.5, 0.5);
+        this.title = this.add.text(game.config.width / 2, 0 + 30, ["SPOOKY", "PICTURE", "GAME"]);
+        this.title.setOrigin(0.5, 0);
         this.title.setFontSize(64);
 
         this.input.on("pointerdown", () => {
@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
             repeat: -1
         });
 
-        this.tutorial = this.add.sprite(game.config.width / 2, game.config.height / 2, 'tutorial').setOrigin(0.5, 0)
+        this.tutorial = this.add.sprite(game.config.width / 2, game.config.height, 'tutorial').setOrigin(0.5, 1)
         this.tutorial.anims.play('tutorial');
     }
 }

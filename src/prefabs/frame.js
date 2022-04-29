@@ -27,8 +27,9 @@ class Frame extends Phaser.GameObjects.Sprite {
                 this.setAlpha(0);
 
                 scene.tweens.add({
-                    targets: scene.cameraSprite,
-                    y: game.config.height - 50,
+                    targets: scene,
+                    cameraOffsetY: {from: -80, to: 0},
+                    cameraShake: {from: 5, to: 20},
                     duration: 300,
                     ease: 'Back.easeInOut',
                 });
@@ -46,8 +47,9 @@ class Frame extends Phaser.GameObjects.Sprite {
                 this.setAlpha(0.3);
 
                 scene.tweens.add({
-                    targets: scene.cameraSprite,
-                    y: game.config.height - 150,
+                    targets: scene,
+                    cameraOffsetY: {from: 0, to: -80},
+                    cameraShake: {from: 20, to: 5},
                     duration: 200,
                     ease: 'Cubic.easeOut',
                 });
@@ -64,30 +66,30 @@ class Frame extends Phaser.GameObjects.Sprite {
         // UI
         //this.cooldownBar = scene.add.text(this.x, this.y, "Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y + 100, 100, 20, 0x32a852)); 
-        this.cooldownBarBG.setDepth(100);
+        this.cooldownBarBG.setDepth(150);
         this.cooldownBarBG.setPosition(this.x, this.y + 100);
         this.cooldownBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 100, 20, 0xffffff));
-        this.cooldownBar.setDepth(100);
+        this.cooldownBar.setDepth(150);
         this.cooldownBar.setPosition(this.x, this.y + 100);
         
         this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y - 100, 100, 20, 0xd97e00));
-        this.comboBarBG.setDepth(100);
+        this.comboBarBG.setDepth(150);
         this.comboBarBG.setPosition(this.x, this.y - 100);
         this.comboBarBG.setVisible(false);
         this.comboBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 100, 20, 0xfcba03));
-        this.comboBar.setDepth(100);
+        this.comboBar.setDepth(150);
         this.comboBar.setPosition(this.x, this.y - 100);
         this.comboBar.width = 0;
         this.comboBar.setVisible(false);
 
         this.comboText = scene.add.text(this.x, this.y - 100, this.combo);
-        this.comboText.setDepth(100);
+        this.comboText.setDepth(150);
         this.comboText.setOrigin(0.5, 0.5);
         this.comboText.setPosition(this.x, this.y - 100);
         this.comboText.setVisible(false);
 
-        this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");
-        this.chargeBar.setDepth(100);
+        // this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");
+        // this.chargeBar.setDepth(100);
         
         // add invisible flash
         this.flash = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, 0, 0, game.config.width, game.config.height, 0xffffff));
@@ -143,7 +145,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         // cooldown bar
         //this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBar.width = Phaser.Math.Clamp((this.coolDown / this.totalCoolDown), 0, 1) * 100;
-        this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
+        //this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
     }
 
     lock() {

@@ -7,10 +7,28 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(20);
         this.setAlpha(0.9);
 
+        // locking visual
+        this.lockHint = scene.add.image(0, 0, 'frame');
+        this.lockHint.setScale(0.5);
+        this.lockHint.setVisible(false);
+        this.lockHint.setAlpha(0.5);
+        this.lockHint.setDepth(100);
+        
+        // variables
+        this.progress = 0;
+        this.health = Math.round(Math.random() * 3);
+        this.perfectShot = false;
+        this.locked = false;
+        
+        this.xOffset = x;
+        this.yOffset = y;
+        
+        this.speedMultiplier = 1;
+        
         // ghost type
         const normalGhost = 0;
         const heartGhost = 1;
-        const filmGhost = 2;
+        const splitGhost = 2;
         const fastGhost = 3;
         this.type = normalGhost;
 
@@ -21,32 +39,14 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             case heartGhost:
 
                 break;
-            case filmGhost:
+            case splitGhost:
 
                 break;
             case fastGhost:
-
+                this.speedMultiplier = 1.2;
                 break;
             default:
         }
-
-        // locking visual
-        this.lockHint = scene.add.image(0, 0, 'frame');
-        this.lockHint.setScale(0.5);
-        this.lockHint.setVisible(false);
-        this.lockHint.setAlpha(0.5);
-        this.lockHint.setDepth(100);
-
-        // variables
-        this.progress = 0;
-        this.health = Math.round(Math.random() * 3);
-        this.perfectShot = false;
-        this.locked = false;
-
-        this.xOffset = x;
-        this.yOffset = y;
-
-        this.speedMultiplier = 1;
     }
 
     update(time, delta) {
@@ -127,11 +127,6 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             // if ghost is a heart, add a heart
             if (this.type === this.heartGhost) {
                 this.scene.health += 1;
-            }
-
-            // if ghost is a film, add a film
-            if (this.type === this.filmGhost) {
-                this.scene.films += 1;
             }
 
             // kill the visual 

@@ -54,6 +54,12 @@ class Play extends Phaser.Scene {
         this.cameraSprite.setDepth(100);
         this.cameraSprite.setAlpha(0.5);
 
+        this.dynamicCamera = this.add.renderTexture(game.config.width / 2, game.config.height / 2, game.config.width, game.config.width);
+        this.dynamicCamera.setOrigin(0.5, 0.5);
+        this.dynamicCamera.setDepth(110);
+        this.dynamicCamera.setScale(0.2);
+
+
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(100);
@@ -90,7 +96,10 @@ class Play extends Phaser.Scene {
             wall.update(time, delta);
         });
 
-        // update camera
+        // update camera and dynamic texture
+        this.dynamicCamera.fill(0x000000);
+        this.dynamicCamera.draw(this.children, 0, -game.config.height / 4);
+        this.dynamicCamera.setPosition(this.cameraSprite.x + 10, this.cameraSprite.y + 25);
         //this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height - 50 - Math.abs(Math.sin(time / 200) * 20));
 
         // update ghosts
@@ -128,5 +137,6 @@ class Play extends Phaser.Scene {
         this.gameOver = true;
 
         this.scene.start("over");
+        this.gameOver = false;
     }
 }

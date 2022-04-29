@@ -4,8 +4,13 @@ var config = {
         mode: Phaser.Scale.FIT,
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 360,
+        width: window.innerWidth / 3,
         height: 640,
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        },
+        banner: false,
     },
     pixelArt: true,
     physics: {
@@ -33,3 +38,11 @@ let borderPadding = borderUISize / 3;
 
 // reserve keyboard vars
 let keyESC, keySPACE;
+
+
+// const resize = ()=>{
+//     game.scale.resize(window.innerWidth / 3, 640)
+// }
+
+// window.addEventListener('resize', resize);
+// resize();

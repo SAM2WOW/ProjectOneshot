@@ -7,7 +7,7 @@ class Menu extends Phaser.Scene {
         this.load.spritesheet('tutorial', 'assets/Tutorial.png', { frameWidth: 360, frameHeight: 360 });
     }
 
-    create() {
+    create() {       
         this.title = this.add.text(game.config.width / 2, game.config.height / 2 - 100, ["SPOOKY", "PICTURE", "GAME"]);
         this.title.setOrigin(0.5, 0.5);
         this.title.setFontSize(64);

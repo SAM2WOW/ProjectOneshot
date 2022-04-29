@@ -91,7 +91,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
             this.cooldownBarBG.setFillStyle(0x32a852);
         } else {
-            this.cooldownBarBG.setFillStyle(0xffffff);
+            this.cooldownBarBG.setFillStyle(0xffffff00);
         }
 
         if (this.charging) {

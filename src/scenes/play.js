@@ -32,7 +32,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('camera', 'assets/sprites/temp_camera.gif');
-        this.load.image('wall', 'assets/sprites/temp_wall.png');
+        this.load.image('wall', 'assets/sprites/hallway_01.png');
         this.load.image('frame', 'assets/sprites/temp_frame.png');
         this.load.image('ghost', 'assets/sprites/temp_ghost.png');
 

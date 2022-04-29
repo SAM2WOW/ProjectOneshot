@@ -41,9 +41,9 @@ class Play extends Phaser.Scene {
 
     create() {
         // add multiple scrolling wall
-        let wallCount = 12;
+        let wallCount = 14;
         for (let i = 0; i < wallCount; i++) {
-            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall', 1/wallCount * i);
+            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall', 1.2/wallCount * i);
             this.walls.push(wall);
         }
 
@@ -51,7 +51,7 @@ class Play extends Phaser.Scene {
         this.cameraSprite = this.add.image(game.config.width / 2, game.config.height - 50, 'camera');
         this.cameraSprite.setScale(3);
         this.cameraSprite.setDepth(100);
-        this.cameraSprite.setAlpha(0.5);
+        this.cameraSprite.setAlpha(1);
 
         this.dynamicCamera = this.add.renderTexture(360, game.config.height / 2, game.config.width, game.config.width);
         this.dynamicCamera.setOrigin(0.5, 0.5);

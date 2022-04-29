@@ -11,6 +11,8 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.charging = false;
         this.coolDown = 0;  // cooldown in ms
         this.totalCoolDown = 1000;
+        this.combo = 0;
+        this.comboCoolDown = 0;
 
         this.setAlpha(0);
 
@@ -68,6 +70,22 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.cooldownBar.setDepth(100);
         this.cooldownBar.setPosition(this.x, this.y + 100);
         
+        this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y - 100, 100, 20, 0xd97e00));
+        this.comboBarBG.setDepth(100);
+        this.comboBarBG.setPosition(this.x, this.y - 100);
+        this.comboBarBG.setVisible(false);
+        this.comboBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 100, 20, 0xfcba03));
+        this.comboBar.setDepth(100);
+        this.comboBar.setPosition(this.x, this.y - 100);
+        this.comboBar.width = 0;
+        this.comboBar.setVisible(false);
+
+        this.comboText = scene.add.text(this.x, this.y - 100, this.combo);
+        this.comboText.setDepth(100);
+        this.comboText.setOrigin(0.5, 0.5);
+        this.comboText.setPosition(this.x, this.y - 100);
+        this.comboText.setVisible(false);
+
         this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");
         this.chargeBar.setDepth(100);
         
@@ -87,11 +105,30 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         // lower cooldown
         if (this.coolDown > 0) {
-            this.coolDown -= delta;
+            if (this.combo > 0) {
+                this.coolDown -= delta * this.combo;
+            } else {
+                this.coolDown -= delta;
+            }
 
             this.cooldownBarBG.setFillStyle(0x32a852);
         } else {
-            this.cooldownBarBG.setFillStyle(0xffffff00);
+            this.cooldownBarBG.setFillStyle(0xffffff);
+        }
+
+        // lower combo cooldown
+        if (this.comboCoolDown > 0) {
+            this.comboCoolDown -= delta / 16;
+
+            this.comboBar.width = Phaser.Math.Clamp((this.comboCoolDown / 100), 0, 1) * 100;
+        } else {
+            if (this.combo > 0) {
+                this.combo = 0;
+
+                this.comboText.setVisible(false);
+                this.comboBar.setVisible(false);
+                this.comboBarBG.setVisible(false);
+            }
         }
 
         if (this.charging) {

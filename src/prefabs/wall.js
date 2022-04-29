@@ -14,7 +14,7 @@ class Wall extends Phaser.GameObjects.Sprite {
     update(time, delta) { 
         this.progress += game.scrollingSpeed * delta / 16;
 
-        if (this.progress >= 1) {
+        if (this.progress >= 1.2) {
             this.progress = 0;
         }
 
@@ -29,7 +29,7 @@ class Wall extends Phaser.GameObjects.Sprite {
         this.setPosition(space.x, space.y);
         
         // shading
-        let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
+        let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 300, 0, 255);
         this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
     }
 }

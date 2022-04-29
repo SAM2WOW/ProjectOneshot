@@ -115,7 +115,16 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         // perfect shot make combos
         if (this.perfectShot) {
-            frame.coolDown -= 400;
+            // frame.coolDown -= 400;
+            frame.combo++;
+            frame.comboCoolDown = 100;
+
+            // combo visual
+            frame.comboText.setText(frame.combo);
+            frame.comboText.setVisible(true);
+            frame.comboBar.setVisible(true);
+            frame.comboBarBG.setVisible(true);
+        
         }
 
         this.health -= 1;

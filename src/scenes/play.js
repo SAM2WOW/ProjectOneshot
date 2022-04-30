@@ -37,6 +37,7 @@ class Play extends Phaser.Scene {
         this.load.image('wall', 'assets/sprites/hallway_01.png');
         this.load.image('frame', 'assets/sprites/temp_frame.png');
         this.load.image('ghost', 'assets/sprites/temp_ghost.png');
+        this.load.image('eyeaf', 'assets/sprites/focus.png');
 
         this.load.audio('shoot', 'assets/sounds/shoot.mp3');
         this.load.audio('focus', 'assets/sounds/focus.mp3');
@@ -119,8 +120,8 @@ class Play extends Phaser.Scene {
     }
 
     spawnGhost() {
-        let x = Math.random() * 200;
-        let y = Math.random() * 200;
+        let x = Math.random() * 400;
+        let y = Math.random() * 400;
         let ghost = new Ghost(this, x - 200, y - 200, 'ghost');
         //this.ghosts.push(ghost);
         this.ghosts.add(ghost);

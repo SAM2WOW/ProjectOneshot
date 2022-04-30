@@ -44,7 +44,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
                 this.charging = true;
 
-                this.setAlpha(0.3);
+                this.setAlpha(0.5);
 
                 scene.tweens.add({
                     targets: scene,

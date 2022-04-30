@@ -8,10 +8,10 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(0.9);
 
         // locking visual
-        this.lockHint = scene.add.image(0, 0, 'frame');
+        this.lockHint = scene.add.image(0, 0, 'eyeaf');
         this.lockHint.setScale(0.5);
         this.lockHint.setVisible(false);
-        this.lockHint.setAlpha(0.5);
+        this.lockHint.setAlpha(0.8);
         this.lockHint.setDepth(100);
         
         // variables
@@ -76,7 +76,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
         // lock hint visual
         this.lockHint.setPosition(this.x, this.y);
-        this.lockHint.setScale(this.scene.lerp(0.1, 1, space.curvedProgress));
+        this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
         
         // shading
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);

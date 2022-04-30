@@ -13,6 +13,11 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.lockHint.setVisible(false);
         this.lockHint.setAlpha(0.8);
         this.lockHint.setDepth(100);
+
+        // shadow
+        // this.shadow = scene.add.ellipse(game.config.width / 2, game.config.height / 2, 3, 1, 0x000000);
+        // this.shadow.setDepth(12);
+        // this.shadow.setAlpha(0.3);
         
         // variables
         this.progress = 0;
@@ -54,7 +59,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         //console.log(this.progress);
 
         // ghost attack!
-        if (this.progress >= 1.2) {
+        if (this.progress >= 1) {
             this.scene.damage();
 
             console.log("ghost killed you haha");
@@ -73,11 +78,16 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         
         // head bounce
         this.setPosition(space.x, space.y);
-
+        
         // lock hint visual
         this.lockHint.setPosition(this.x, this.y);
         this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
         
+        // update shadow
+        // this.shadow.setScale(this.scene.lerp(0, 40, space.curvedProgress));
+        // this.shadow.x = this.x;
+        // this.shadow.y = space.y + this.scene.lerp(0, 300, space.curvedProgress);
+
         // shading
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
 
@@ -120,7 +130,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             frame.comboCoolDown = 100;
 
             // combo visual
-            frame.comboText.setText(frame.combo);
+            frame.comboText.setText("COMBO " + frame.combo);
             frame.comboText.setVisible(true);
             frame.comboBar.setVisible(true);
             frame.comboBarBG.setVisible(true);

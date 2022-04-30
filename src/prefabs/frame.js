@@ -72,20 +72,17 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.cooldownBar.setDepth(150);
         this.cooldownBar.setPosition(this.x, this.y + 100);
         
-        this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y - 100, 100, 20, 0xd97e00));
+        this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, 100, 100, 20, 0xd97e00));
         this.comboBarBG.setDepth(150);
-        this.comboBarBG.setPosition(this.x, this.y - 100);
         this.comboBarBG.setVisible(false);
-        this.comboBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 100, 20, 0xfcba03));
+        this.comboBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, 100, 100, 20, 0xfcba03));
         this.comboBar.setDepth(150);
-        this.comboBar.setPosition(this.x, this.y - 100);
         this.comboBar.width = 0;
         this.comboBar.setVisible(false);
 
-        this.comboText = scene.add.text(this.x, this.y - 100, this.combo);
+        this.comboText = scene.add.text(this.x, 100, this.combo, {fontFamily: "PixelFont"});
         this.comboText.setDepth(150);
         this.comboText.setOrigin(0.5, 0.5);
-        this.comboText.setPosition(this.x, this.y - 100);
         this.comboText.setVisible(false);
 
         // this.chargeBar = scene.add.text(this.x, this.y, "Charge " + this.charge + "");

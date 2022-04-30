@@ -33,14 +33,21 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('camera', 'assets/sprites/temp_camera.gif');
-        this.load.image('wall', 'assets/sprites/hallway_01.png');
-        this.load.image('frame', 'assets/sprites/temp_frame.png');
-        this.load.image('ghost', 'assets/sprites/temp_ghost.png');
-        this.load.image('eyeaf', 'assets/sprites/focus.png');
 
-        this.load.audio('shoot', 'assets/sounds/shoot.mp3');
-        this.load.audio('focus', 'assets/sounds/focus.mp3');
+        //loading images as a group to look good
+        this.load.path = 'assets/sprites/';
+
+        this.load.image('camera', 'temp_camera.gif');
+        this.load.image('wall', 'hallway_01.png');
+        this.load.image('frame', 'temp_frame.png');
+        this.load.image('ghost', 'temp_ghost.png');
+        this.load.image('eyeaf', 'focus.png');
+
+        //loading sounds
+        this.load.path = 'assets/sounds/';
+
+        this.load.audio('shoot', 'shoot.mp3');
+        this.load.audio('focus', 'focus.mp3');
     }   
 
     create() {

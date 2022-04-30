@@ -149,6 +149,11 @@ class Frame extends Phaser.GameObjects.Sprite {
     }
 
     lock() {
+        // only charge 5 ghost max
+        if (this.lockedGhosts.length >= 5) {
+            return;
+        }
+
         // find all ghosts in range
         let ghosts = this.scene.ghosts.getChildren();
         let cloestDistance = 0;

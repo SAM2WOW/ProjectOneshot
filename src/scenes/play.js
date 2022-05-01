@@ -48,9 +48,21 @@ class Play extends Phaser.Scene {
 
         this.load.audio('shoot', 'shoot.mp3');
         this.load.audio('focus', 'focus.mp3');
+
+        //loading ghost atlas (key, spritesheet, json file)
+        //this.load.atlas("some_ghosts", "assets/sprites/some_ghosts.png", "assets/sprites/some_ghosts.json");
+
+        //grabbing individual sprite sheets from atlas
+        //this.textures.addSpriteSheetFromAtlas("normal_ghost", {frameHeight: 240, frameWidth: 240, atlas: "some_ghosts", frame: "normal_ghost"});
+       // this.textures.addSpriteSheetFromAtlas("heart_ghost", {frameHeight: 240, frameWidth: 240, atlas: "some_ghosts", frame: "heart_ghost"});
+    
+        //console.log(this.textures.list);
     }   
 
     create() {
+        //testing atlas
+        //this.add.sprite(100, 100, "normal_ghost", "normal_ghost.png");
+
         // add multiple scrolling wall
         let wallCount = 14;
         for (let i = 0; i < wallCount; i++) {

@@ -13,6 +13,7 @@ var config = {
         banner: false,
     },
     pixelArt: true,
+    backgroundColor: '#260312',
     physics: {
         default: "arcade",  //damb what we got physics?? -ryoma
         arcade: {

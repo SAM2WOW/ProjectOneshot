@@ -48,6 +48,8 @@ class Play extends Phaser.Scene {
 
         this.load.audio('shoot', 'shoot.mp3');
         this.load.audio('focus', 'focus.mp3');
+        this.load.audio('hurt', 'hurt.mp3');
+        this.load.audio('death', 'death.mp3'); //i cant figure out how to make this one work, leaving it here for now. supposed to play on death.
 
         //loading ghost atlas (key, spritesheet, json file)
         //this.load.atlas("some_ghosts", "assets/sprites/some_ghosts.png", "assets/sprites/some_ghosts.json");
@@ -150,6 +152,7 @@ class Play extends Phaser.Scene {
     damage() {
         this.health--;
         this.healthText.setText("❤️".repeat(this.health));
+    
 
         if (this.health <= 0) {
             this.stopGame();
@@ -158,8 +161,10 @@ class Play extends Phaser.Scene {
 
     stopGame() {
         this.gameOver = true;
+        
 
         this.scene.remove(this);
+        
         this.scene.start("over");
     }
 }

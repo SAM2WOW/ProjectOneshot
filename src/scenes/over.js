@@ -8,9 +8,15 @@ class Over extends Phaser.Scene {
     }
 
     create() {
-        //this.title = this.add.text(game.config.width / 2, game.config.height / 2, ["GAME", "OVER"], {fontFamily: "PixelFont"});
-        //this.title.setOrigin(0.5, 0.5);
-        //this.title.setFontSize(64);
+        
+        //play hurt noise
+        this.sfxdeath = this.scene.sound.add('death');
+        this .sfxdeath.play();
+
+
+        this.title = this.add.text(game.config.width / 2, game.config.height / 4, ["YOU'RE", "DEAD!!!"], {fontFamily: "PixelFont"});
+        this.title.setOrigin(0.5, 0.5);
+        this.title.setFontSize(64);
 
         this.input.on("pointerdown", () => {
             this.scene.start("menu");
@@ -23,7 +29,7 @@ class Over extends Phaser.Scene {
             repeat: -1
         });
 
-        this.game_over = this.add.sprite(game.config.width / 2, game.config.height, 'game_over').setOrigin(0.5, 1)
+        this.game_over = this.add.sprite(game.config.width / 2, game.config.height - game.config.height / 8, 'game_over').setOrigin(0.5, 1)
         this.game_over.anims.play('game_over');
     }
 }

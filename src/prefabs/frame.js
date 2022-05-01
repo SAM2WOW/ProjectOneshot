@@ -197,6 +197,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         // remove locked ghosts (reversely so the array doesn't break duh)
         for (let i = this.killedGhosts.length - 1; i >= 0; i--) {
             this.scene.ghosts.remove(this.killedGhosts[i], true);
+            // put a little debug here bitch!!!!
         }
         this.killedGhosts = [];
         

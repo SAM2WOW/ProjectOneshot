@@ -4,6 +4,9 @@ class Over extends Phaser.Scene {
     }
 
     preload() {
+
+        
+
     }
 
     create() {

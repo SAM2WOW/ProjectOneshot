@@ -5,7 +5,7 @@ var config = {
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: window.innerWidth / 1.6875,
-        height: window.innerHeight / 1.6875,
+        height: window.innerHeight / 1.6875, //what does this constant do? -ryoma
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH
@@ -13,8 +13,9 @@ var config = {
         banner: false,
     },
     pixelArt: true,
+    backgroundColor: '#260312',
     physics: {
-        default: "arcade",
+        default: "arcade",  //damb what we got physics?? -ryoma
         arcade: {
             debug: false
         }

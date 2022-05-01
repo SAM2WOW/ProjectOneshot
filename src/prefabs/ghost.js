@@ -61,6 +61,10 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         // ghost attack!
         if (this.progress >= 1) {
             this.scene.damage();
+            
+            //play hurt noise
+            this.sfxhurt = this.scene.sound.add('hurt');
+            this.sfxhurt.play();
 
             console.log("ghost killed you haha");
             this.scene.ghosts.remove(this, true);

@@ -194,22 +194,18 @@ class Frame extends Phaser.GameObjects.Sprite {
         }
         this.lockedGhosts = [];
 
-        // remove locked ghosts (reversely so the array doesn't break duh)
-        for (let i = this.killedGhosts.length - 1; i >= 0; i--) {
-            this.scene.ghosts.remove(this.killedGhosts[i], true);
-            // put a little debug here bitch!!!!
-        }
-        this.killedGhosts = [];
-        
-        this.charge = 0;
+        // wait for animation then DELETE
+        this.scene.time.delayedCall(500, () => {
+            // remove locked ghosts (reversely so the array doesn't break duh)
+            for (let i = this.killedGhosts.length - 1; i >= 0; i--) {
+                this.scene.ghosts.remove(this.killedGhosts[i], true);
 
-        // this.scene.tweens.add({
-        //     targets: this.scene.cameraSprite,
-        //     duration: 300,
-        //     scaleY: {from: 3, to: 10},
-        //     ease: 'Power2',
-        //     yoyo: true,
-        // });
+                this.scene.spawnGhost(normalGhost);
+            }
+            this.killedGhosts = [];
+        }, null, this);
+
+        this.charge = 0;
 
         this.scene.tweens.add({
             targets: this.flash,

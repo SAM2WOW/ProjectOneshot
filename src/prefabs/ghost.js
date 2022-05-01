@@ -24,6 +24,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
         this.health = Math.round(Math.random() * 3);
         this.perfectShot = false;
         this.locked = false;
+        this.dead = false;
         
         this.xOffset = x;
         this.yOffset = y;
@@ -32,26 +33,33 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         // ghost type
         this.type = type;
+        this.animName = ['normal_ghost', 'heart_ghost'][this.type];
 
         switch (this.type) {
             case normalGhost:
-                this.play('normal_ghost_normal');
+                this.play(this.animName + '_normal');
                 break;
             case heartGhost:
-                this.play('heart_ghost_normal');
+                this.play(this.animName + '_normal');
+                this.health = 1;
                 break;
             case splitGhost:
 
                 break;
             case fastGhost:
                 this.play({ key: 'normal_ghost_normal', frameRate: 12 });
-                this.speedMultiplier = 1.2;
+                this.speedMultiplier = 1.5;
                 break;
             default:
         }
     }
 
     update(time, delta) {
+        // don't update if dead
+        if (this.dead) {
+            return;
+        }
+
         this.progress += game.scrollingSpeed * this.speedMultiplier * (delta / 16);
         //console.log(this.progress);
 
@@ -89,20 +97,34 @@ class Ghost extends Phaser.GameObjects.Sprite {
         // this.shadow.x = this.x;
         // this.shadow.y = space.y + this.scene.lerp(0, 300, space.curvedProgress);
 
-        // shading
-        let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
-
         // perfect timeing tint (between 0.82 and 0.95)
         if (this.progress >= 0.80 && this.progress <= 0.90) {
             this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
+            
+            if (!this.perfectShot) {
+                this.play(this.animName + '_perfect');
+            }
+
             this.perfectShot = true;
+
         } else {
+            // shading
+            let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
             this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
+
+            if (this.perfectShot) {
+                this.play(this.animName + '_normal');
+            }
+
             this.perfectShot = false;
         }
     }
 
     checkLock() {
+        if (this.dead) {
+            return false;
+        }
+
         // bad shot
         if (this.locked || this.progress < 0.5) {
             console.log("-- bad locking for this boy");
@@ -139,10 +161,13 @@ class Ghost extends Phaser.GameObjects.Sprite {
         }
 
         this.health -= 1;
+
+        this.play(this.animName + '_hurt');
         
         // check for health results
         if (this.health <= 0) {
             console.log("ghost died");
+            this.dead = true;
 
             // if ghost is a heart, add a heart
             if (this.type === heartGhost) {
@@ -152,9 +177,19 @@ class Ghost extends Phaser.GameObjects.Sprite {
             // kill the visual 
             this.lockHint.destroy();
 
+            // (delay) kill the ghost
             frame.killedGhosts.push(this);
-            
-            this.scene.spawnGhost(this.type);
+
+            // play a little tweens
+            this.scene.tweens.add({
+                targets: this,
+                scale: { from: this.scale, to: 0.01 },
+                alpha: { from: 1, to: 0.01 },
+                // y: { from: this.y, to: this.y - 1000 },
+                duration: 500,
+                ease: 'Sine.easeInOut',
+            });
+
         } else {
             this.angle += 45;
             this.scene.tweens.add({
@@ -163,6 +198,10 @@ class Ghost extends Phaser.GameObjects.Sprite {
                 duration: 500,
                 ease: 'Circ.easeOut',
             });
+
+            this.scene.time.delayedCall(500, () => {
+                this.play(this.animName + '_normal');
+            }, null, this);
         }
         
         this.locked = false;

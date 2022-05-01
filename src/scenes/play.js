@@ -90,6 +90,12 @@ class Play extends Phaser.Scene {
             frameRate: 6,  
             repeat: -1
         });
+        this.anims.create({
+            key: 'heart_ghost_hurt',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 10, end: 11}),
+            frameRate: 6,
+            repeat: -1
+        });
 
         // add multiple scrolling wall
         let wallCount = 14;

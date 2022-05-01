@@ -40,6 +40,11 @@ let borderPadding = borderUISize / 3;
 // reserve keyboard vars
 let keyESC, keySPACE;
 
+// all the ghosts type
+const normalGhost = 0;
+const heartGhost = 1;
+const splitGhost = 2;
+const fastGhost = 3;
 
 // const resize = ()=>{
 //     game.scale.resize(window.innerWidth / 1.6875, window.innerHeight / 1.6875)

@@ -1,5 +1,5 @@
-class Ghost extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture) {
+class Ghost extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture, type) {
         super(scene, game.config.width / 2 + x, game.config.height / 2 + y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -31,23 +31,20 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
         this.speedMultiplier = 1;
         
         // ghost type
-        const normalGhost = 0;
-        const heartGhost = 1;
-        const splitGhost = 2;
-        const fastGhost = 3;
-        this.type = normalGhost;
+        this.type = type;
 
         switch (this.type) {
             case normalGhost:
-
+                this.play('normal_ghost_normal');
                 break;
             case heartGhost:
-
+                this.play('heart_ghost_normal');
                 break;
             case splitGhost:
 
                 break;
             case fastGhost:
+                this.play({ key: 'normal_ghost_normal', frameRate: 12 });
                 this.speedMultiplier = 1.2;
                 break;
             default:
@@ -148,8 +145,8 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
             console.log("ghost died");
 
             // if ghost is a heart, add a heart
-            if (this.type === this.heartGhost) {
-                this.scene.health += 1;
+            if (this.type === heartGhost) {
+                this.scene.heal();
             }
 
             // kill the visual 
@@ -157,7 +154,7 @@ class Ghost extends Phaser.Physics.Arcade.Sprite {
 
             frame.killedGhosts.push(this);
             
-            this.scene.spawnGhost();
+            this.scene.spawnGhost(this.type);
         } else {
             this.angle += 45;
             this.scene.tweens.add({

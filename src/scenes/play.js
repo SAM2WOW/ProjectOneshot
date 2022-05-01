@@ -40,8 +40,13 @@ class Play extends Phaser.Scene {
         this.load.image('camera', 'temp_camera.gif');
         this.load.image('wall', 'hallway_01.png');
         this.load.image('frame', 'temp_frame.png');
-        this.load.image('ghost', 'temp_ghost.png');
         this.load.image('eyeaf', 'focus.png');
+
+        //loading ghost atlas (key, spritesheet, json file)
+        // this.load.atlas("some_ghosts", "some_ghosts.png", "some_ghosts.json");
+        // this.textures.addSpriteSheetFromAtlas("normal_ghost", {atlas: "some_ghosts", frame: "normal", frameHeight: 240, frameWidth: 240});
+        // this.textures.addSpriteSheetFromAtlas("heart_ghost", {atlas: "some_ghosts", frame: "heart", frameHeight: 240, frameWidth: 240});
+        this.load.spritesheet("some_ghosts", "some_ghosts.png", {frameWidth: 240, frameHeight: 240, startFrame: 0, endFrame: 10});
 
         //loading sounds
         this.load.path = 'assets/sounds/';
@@ -51,19 +56,40 @@ class Play extends Phaser.Scene {
         this.load.audio('hurt', 'hurt.mp3');
         this.load.audio('death', 'death.mp3'); //i cant figure out how to make this one work, leaving it here for now. supposed to play on death.
 
-        //loading ghost atlas (key, spritesheet, json file)
-        //this.load.atlas("some_ghosts", "assets/sprites/some_ghosts.png", "assets/sprites/some_ghosts.json");
-
-        //grabbing individual sprite sheets from atlas
-        //this.textures.addSpriteSheetFromAtlas("normal_ghost", {frameHeight: 240, frameWidth: 240, atlas: "some_ghosts", frame: "normal_ghost"});
-       // this.textures.addSpriteSheetFromAtlas("heart_ghost", {frameHeight: 240, frameWidth: 240, atlas: "some_ghosts", frame: "heart_ghost"});
-    
-        //console.log(this.textures.list);
     }   
 
     create() {
-        //testing atlas
-        //this.add.sprite(100, 100, "normal_ghost", "normal_ghost.png");
+        //add ghosts animations
+        this.anims.create({
+            key: 'normal_ghost_normal',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 0, end: 1}),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'normal_ghost_perfect',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 2, end: 3}),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'normal_ghost_hurt',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 4, end: 5}),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'heart_ghost_normal',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 6, end: 7}),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'heart_ghost_perfect',
+            frames: this.anims.generateFrameNumbers('some_ghosts', {start: 8, end: 9}),
+            frameRate: 6,  
+            repeat: -1
+        });
 
         // add multiple scrolling wall
         let wallCount = 14;
@@ -88,9 +114,9 @@ class Play extends Phaser.Scene {
         this.frame.setDepth(100);
 
         // add ghost
-        this.spawnGhost();
-        this.spawnGhost();
-        this.spawnGhost();
+        this.spawnGhost(normalGhost);
+        this.spawnGhost(fastGhost);
+        this.spawnGhost(heartGhost);
 
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
@@ -140,13 +166,12 @@ class Play extends Phaser.Scene {
         this.distanceText.setText(Math.round(this.distance) + 'm');
     }
 
-    spawnGhost() {
+    spawnGhost(type) {
+        // let frames = ["normal_ghost", "heart_ghost"];
         let x = Math.random() * 400;
         let y = Math.random() * 400;
-        let ghost = new Ghost(this, x - 200, y - 200, 'ghost');
-        //this.ghosts.push(ghost);
+        let ghost = new Ghost(this, x - 200, y - 200, "some_ghosts", type);
         this.ghosts.add(ghost);
-
     }
 
     damage() {
@@ -157,6 +182,11 @@ class Play extends Phaser.Scene {
         if (this.health <= 0) {
             this.stopGame();
         }
+    }
+
+    heal() {
+        this.health = Phaser.Math.Clamp(this.health + 1, 0, 3);
+        this.healthText.setText("❤️".repeat(this.health));
     }
 
     stopGame() {

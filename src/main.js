@@ -46,6 +46,11 @@ const heartGhost = 1;
 const splitGhost = 2;
 const fastGhost = 3;
 
+// all the level infos
+const easyLevel = [
+    "",
+];
+
 // const resize = ()=>{
 //     game.scale.resize(window.innerWidth / 1.6875, window.innerHeight / 1.6875)
 // }

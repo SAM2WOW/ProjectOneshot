@@ -33,7 +33,6 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-
         //loading images as a group to look good
         this.load.path = 'assets/sprites/';
 
@@ -144,6 +143,11 @@ class Play extends Phaser.Scene {
             this.spawnGhost();
         });
 
+        // initial delay call for turning
+        this.time.delayedCall(3000, () => {
+            this.makeTurn();
+        });
+
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
         this.distanceText.setPosition(game.config.width / 2, 30);
@@ -166,7 +170,7 @@ class Play extends Phaser.Scene {
         }
 
         // hey make some turns!!
-        game.turningOffset = Math.cos(time / 600) * 200;
+        // game.turningOffset = Math.cos(time / 600) * 200;
 
         // update all walls
         this.walls.forEach(wall => {
@@ -190,6 +194,22 @@ class Play extends Phaser.Scene {
         // update distance traveled
         this.distance += (delta / 16) * 0.0284;
         this.distanceText.setText(Math.round(this.distance) + 'm');
+    }
+    
+    makeTurn() {
+        let duration = Math.random() * 4000 + 2000;
+        let offset = Math.random() * 600 - 300;
+        this.tweens.add({
+            targets: game,
+            duration: duration,
+            turningOffset: {from: 0, to: offset},
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+        });
+
+        this.time.delayedCall(duration * 2 + this.lerp(500, 5000, Math.random()), () => {
+            this.makeTurn();
+        });
     }
 
     spawnGhost() {

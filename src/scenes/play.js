@@ -42,6 +42,7 @@ class Play extends Phaser.Scene {
         this.load.image('wall3', 'hallway_03.png');
         this.load.image('frame', 'focus_frame.png');
         this.load.image('ui_frame', 'frame_UI.png');
+        this.load.image('ui_perfect', 'combo_bottom.png');
         this.load.image('eyeaf', 'focus.png');
         this.load.image('wisps', 'ghost_particles.png');
 
@@ -291,9 +292,11 @@ class Play extends Phaser.Scene {
         this.health--;
         // this.healthText.setText("❤️".repeat(this.health));
         
-        this.healthBar.setFrame(5 - (this.health * 2));        
+        this.healthBar.setFrame(5 - (this.health * 2));   
+        this.healthBar.setTintFill(0xd77bba);       
         this.time.delayedCall(150, () => {
             this.healthBar.setFrame(6 - (this.health * 2));  
+            this.healthBar.clearTint();  
         });
 
         //play hurt noise
@@ -313,9 +316,11 @@ class Play extends Phaser.Scene {
         this.health++;
         // this.healthText.setText("❤️".repeat(this.health));
 
-        this.healthBar.setFrame(7 - (this.health * 2));        
+        this.healthBar.setFrame(7 - (this.health * 2));     
+        this.healthBar.setTintFill(0xd77bba);   
         this.time.delayedCall(150, () => {
-            this.healthBar.setFrame(6 - (this.health * 2));  
+            this.healthBar.setFrame(6 - (this.health * 2));
+            this.healthBar.clearTint();  
         });
 
         //play heal noise
@@ -331,6 +336,7 @@ class Play extends Phaser.Scene {
         this.bgm.stop();
 
         this.time.delayedCall(1000, () => {
+            this.gameOver = false;
             this.scene.start("over");
         });
     }

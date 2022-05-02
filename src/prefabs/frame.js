@@ -19,7 +19,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         // add frame UI
         this.frameUI = scene.add.image(game.config.width / 2, game.config.height / 2, 'ui_frame');
         this.frameUI.setDepth(150);
-        this.frameUI.setAlpha(0.8);
+        this.frameUI.setAlpha(1);
         
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
@@ -74,20 +74,25 @@ class Frame extends Phaser.GameObjects.Sprite {
         // this.cooldownBarBG.setDepth(140);
         // this.cooldownBarBG.setPosition(this.x + 141, this.y - 5);
         // this.cooldownBarBG.setOrigin(0, 0.5);
-        this.cooldownBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0x1e2e67));
+        this.cooldownBar = scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x + 141, this.y - 5, 20, 150, 0x1e2e67));
         this.cooldownBar.setDepth(140);
-        this.cooldownBar.setPosition(this.x + 141, this.y - 5);
         this.cooldownBar.setOrigin(0, -0.5);
+        this.cooldownBar.height = -150;
         
-        this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, 100, 100, 20, 0xd97e00));
-        this.comboBarBG.setDepth(140);
-        this.comboBarBG.setVisible(false);
-        this.comboBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, 100, 100, 20, 0xfcba03));
+        // this.comboBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 157, this.y - 33, 16, 111, 0xd97e00));
+        // this.comboBarBG.setDepth(140);
+        // this.comboBarBG.setVisible(false);
+        this.comboBar = scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 157, this.y - 20, 16, 111, 0xfcba03));
         this.comboBar.setDepth(140);
-        this.comboBar.width = 0;
         this.comboBar.setVisible(false);
+        this.comboBar.setOrigin(0, -0.5);
+        this.comboBar.height = -111;
 
-        this.comboText = scene.add.text(this.x, 100, this.combo, {fontFamily: "PixelFont"});
+        this.comboCircle = scene.add.image(this.x, this.y, 'ui_perfect');
+        this.comboCircle.setDepth(140);
+        this.comboCircle.setVisible(false);
+
+        this.comboText = scene.add.text(this.x - 149, this.y + 49, 23, {fontFamily: "PixelFont", fontSize: "20px", color: "#306082"});
         this.comboText.setDepth(140);
         this.comboText.setOrigin(0.5, 0.5);
         this.comboText.setVisible(false);
@@ -121,9 +126,17 @@ class Frame extends Phaser.GameObjects.Sprite {
                 this.coolDown -= delta;
             }
 
-            // this.cooldownBarBG.setFillStyle(0x32a852);
-        } else {
-            // this.cooldownBarBG.setFillStyle(0xffffff);
+            // cooldown bar
+            this.cooldownBar.height = Phaser.Math.Clamp(1 - (this.coolDown / this.totalCoolDown), 0, 1) * -150;
+
+            // effect for when the bar is just filled
+            if (this.coolDown <= 0) {
+                this.cooldownBar.fillColor = 0x306082;
+
+                this.scene.time.delayedCall(50, () => {
+                    this.cooldownBar.fillColor = 0x1e2e67;
+                });
+            }
         }
 
         // lower combo cooldown
@@ -131,14 +144,16 @@ class Frame extends Phaser.GameObjects.Sprite {
             // console.log("cooling down combo" + this.scene.lerp(0.3, 2, Phaser.Math.Clamp(this.combo, 0, 10) / 10));
             this.comboCoolDown -= (delta / 16) * this.scene.lerp(0.3, 2, Phaser.Math.Clamp(this.combo, 0, 10) / 10);
 
-            this.comboBar.width = Phaser.Math.Clamp((this.comboCoolDown / 100), 0, 1) * 100;
+            this.comboBar.height = Phaser.Math.Clamp((this.comboCoolDown / 100), 0, 1) * -111;
+
         } else {
             if (this.combo > 0) {
                 this.combo = 0;
 
                 this.comboText.setVisible(false);
                 this.comboBar.setVisible(false);
-                this.comboBarBG.setVisible(false);
+                this.comboCircle.setVisible(false);
+                // this.comboBarBG.setVisible(false);
             }
         }
 
@@ -151,10 +166,6 @@ class Frame extends Phaser.GameObjects.Sprite {
             }
         }
 
-        // cooldown bar
-        //this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
-        this.cooldownBar.height = Phaser.Math.Clamp(1 - (this.coolDown / this.totalCoolDown), 0, 1) * -150;
-        //this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
     }
 
     lock() {

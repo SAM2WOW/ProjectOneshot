@@ -179,10 +179,11 @@ class Ghost extends Phaser.GameObjects.Sprite {
             frame.comboCoolDown = 100;
 
             // combo visual
-            frame.comboText.setText("COMBO " + frame.combo);
+            frame.comboText.setText(frame.combo);
             frame.comboText.setVisible(true);
             frame.comboBar.setVisible(true);
-            frame.comboBarBG.setVisible(true);
+            frame.comboCircle.setVisible(true);
+            // frame.comboBarBG.setVisible(true);
             
             // combo sounds
             if (!frame.sfxperfect.isPlaying) {
@@ -254,7 +255,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
                 on: false
             });
 
-            this.particles.emitParticleAt(this.x, this.y, 6)
+            this.particles.emitParticleAt(this.x, this.y, 5)
 
             // play a little tweens
             this.scene.tweens.add({

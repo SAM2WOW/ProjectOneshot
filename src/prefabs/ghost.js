@@ -13,12 +13,13 @@ class Ghost extends Phaser.GameObjects.Sprite {
         this.lockHint.setVisible(false);
         this.lockHint.setAlpha(0.5);
         this.lockHint.setDepth(100);
+        this.lockHint.setTint(0x306082);
 
-        this.perfectHint = scene.add.image(0, 0, 'eyeaf');
-        this.perfectHint.setScale(0.1);
-        this.perfectHint.setVisible(false);
-        this.perfectHint.setAlpha(0.5);
-        this.perfectHint.setDepth(100);
+        // this.perfectHint = scene.add.image(0, 0, 'eyeaf');
+        // this.perfectHint.setScale(0.1);
+        // this.perfectHint.setVisible(false);
+        // this.perfectHint.setAlpha(0.5);
+        // this.perfectHint.setDepth(100);
 
         // shadow
         // this.shadow = scene.add.ellipse(game.config.width / 2, game.config.height / 2, 3, 1, 0x000000);
@@ -92,13 +93,13 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         // lock hint visual
         this.lockHint.setPosition(this.x, this.y);
-        // this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
+        this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
         //this.lockHint.setRotation(this.scene.lerp(0, Math.PI / 2, space.curvedProgress));
 
         // perfect hint visual
-        this.perfectHint.setPosition(this.x, this.y);
-        this.perfectHint.setScale(this.progress);
-        this.perfectHint.setAlpha(this.scene.lerp(0, 0.8, this.progress));
+        // this.perfectHint.setPosition(this.x, this.y);
+        // this.perfectHint.setScale(this.progress);
+        // this.perfectHint.setAlpha(this.scene.lerp(0, 0.8, this.progress));
         
         // update shadow
         // this.shadow.setScale(this.scene.lerp(0, 40, space.curvedProgress));
@@ -114,6 +115,8 @@ class Ghost extends Phaser.GameObjects.Sprite {
             // this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             
             if (!this.perfectShot) {
+                this.lockHint.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
+
                 this.play(this.animName + '_perfect');
 
                 this.sfxhurt = this.scene.sound.add('ghost_attack' + Math.ceil(Math.random() * 5));
@@ -127,6 +130,8 @@ class Ghost extends Phaser.GameObjects.Sprite {
         } else {
 
             if (this.perfectShot) {
+                this.lockHint.setTint(0x306082);
+
                 this.play(this.animName + '_normal');
             }
 
@@ -155,7 +160,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
     lock() {
         this.locked = true;
         this.lockHint.setVisible(true);
-        this.perfectHint.setVisible(true);
+        // this.perfectHint.setVisible(true);
     }
 
     damage(frame) {
@@ -198,7 +203,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
             
             // kill the visual 
             this.lockHint.destroy();
-            this.perfectHint.destroy();
+            // this.perfectHint.destroy();
             
             this.sfxkill = this.scene.sound.add('ghost_kill');
             this.sfxkill.detune = this.scene.lerp(0, 500, Math.random());
@@ -248,6 +253,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         this.locked = false;
         this.lockHint.setVisible(false);
-        this.perfectHint.setVisible(false);
+        // this.perfectHint.setVisible(false);
     }
 }

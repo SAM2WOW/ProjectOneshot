@@ -133,10 +133,10 @@ class Play extends Phaser.Scene {
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(100);
 
-        // add ghost
-        this.spawnGhost(normalGhost);
-        this.spawnGhost(fastGhost);
-        this.spawnGhost(heartGhost);
+        // initial delay call for random add ghost
+        this.time.delayedCall(500, () => {
+            this.spawnGhost();
+        });
 
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
@@ -186,12 +186,42 @@ class Play extends Phaser.Scene {
         this.distanceText.setText(Math.round(this.distance) + 'm');
     }
 
-    spawnGhost(type) {
-        // let frames = ["normal_ghost", "heart_ghost"];
-        let x = Math.random() * 400;
-        let y = Math.random() * 400;
-        let ghost = new Ghost(this, x - 200, y - 200, "some_ghosts", type);
-        this.ghosts.add(ghost);
+    spawnGhost() {
+        let spawnAmount = Math.round(Math.random() * 3);
+        let spawnSlot = [-200, -100, 0, 100, 200];
+        let xPos = [];
+        let yPos = [];
+
+        // spawnSlot[Math.floor(Math.random() * spawnSlot.length)]
+
+        // find random non overlapping numbers
+        while (xPos.length < spawnAmount) {
+            let randomNum = Math.floor(Math.random() * spawnSlot.length);
+            if (!xPos.includes(randomNum)) {
+                xPos.push(randomNum);
+            }
+        }
+
+        while (yPos.length < spawnAmount) {
+            let randomNum = Math.floor(Math.random() * spawnSlot.length);
+            if (!yPos.includes(randomNum)) {
+                yPos.push(randomNum);
+            }
+        }
+
+        // spawn ghosts
+        xPos.forEach((x, i) => {
+            let y = yPos[i];
+            let isSpecial = Math.random() > 0.7;
+            let type = isSpecial ? [heartGhost, fastGhost][Math.round(Math.random())] : normalGhost;
+            let ghost = new Ghost(this, spawnSlot[x] + this.lerp(-50, 50, Math.random()), spawnSlot[y] + this.lerp(-50, 50, Math.random()), "some_ghosts", type);
+            this.ghosts.add(ghost);
+        });
+
+        // spawn next ghost
+        this.time.delayedCall(this.lerp(1000, 3000, Math.random()), () => {
+            this.spawnGhost();
+        });
     }
 
     damage() {

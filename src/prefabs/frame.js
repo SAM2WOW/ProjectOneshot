@@ -136,7 +136,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         if (this.charging) {
             //this.charge = Math.min(this.charge + delta / 400, 5);
-            this.charge = this.charge + delta / 400;
+            this.charge = this.charge + (delta / 400) * (this.combo + 1);
             if (this.charge >= 1) {
                 this.charge = 0;
                 this.lock();
@@ -203,8 +203,6 @@ class Frame extends Phaser.GameObjects.Sprite {
             // remove locked ghosts (reversely so the array doesn't break duh)
             for (let i = this.killedGhosts.length - 1; i >= 0; i--) {
                 this.scene.ghosts.remove(this.killedGhosts[i], true);
-
-                this.scene.spawnGhost(normalGhost);
             }
             this.killedGhosts = [];
         }, null, this);

@@ -234,6 +234,28 @@ class Ghost extends Phaser.GameObjects.Sprite {
             // (delay) kill the ghost
             frame.killedGhosts.push(this);
 
+            //ghost particle effects play on death
+            this.particles = this.scene.add.particles('wisps');
+            this.particles.setDepth(this.depth);
+            this.particles.setAlpha(this.alpha);
+
+            //particle emitter
+            this.emitter = this.particles.createEmitter({
+                x: {min: 0, max: 100},
+                y: {min:0, max: 100},
+                angle: {min: 0, max: 360},
+                speed: {min: 15, max: 60},
+                lifespan: {min: 800, max: 1500},
+                //blendMode: 'LUMINOSITY',
+                frequency: 5,
+                alpha: {start: 1, end: 0},
+                scale: {min: 0.5, max: 1.5, start: 1, end: 0},
+                tint: this.tint,
+                on: false
+            });
+
+            this.particles.emitParticleAt(this.x, this.y, 6)
+
             // play a little tweens
             this.scene.tweens.add({
                 targets: this,

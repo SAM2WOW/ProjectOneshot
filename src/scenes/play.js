@@ -43,7 +43,9 @@ class Play extends Phaser.Scene {
         this.load.image('frame', 'focus_frame.png');
         this.load.image('ui_frame', 'frame_UI.png');
         this.load.image('eyeaf', 'focus.png');
+        this.load.image('wisps', 'ghost_particles.png');
 
+        //scrapped atlas implmenetation
         //loading ghost atlas (key, spritesheet, json file)
         // this.load.atlas("some_ghosts", "some_ghosts.png", "some_ghosts.json");
         // this.textures.addSpriteSheetFromAtlas("normal_ghost", {atlas: "some_ghosts", frame: "normal", frameHeight: 240, frameWidth: 240});
@@ -178,23 +180,20 @@ class Play extends Phaser.Scene {
 
         //particles researched from https://rexrainbow.github.io/phaser3-rex-notes/docs/site/particles/
         //particle manager
-        //"love" is the image I used in Love Patrol, image needs to defined in preload
-        //this.particles = this.add.particles('love');
+        this.particles = this.add.particles('wisps');
         //particle emitter
-        // this.emitter = this.particles.createEmitter({
-        //     x: {min: 0, max: 100},
-        //     y: {min:0, max: 100},
-        //     speed: 50,
-        //     lifespan: 1500,
-        //     blendMode: 'LUMINOSITY',
-        //     frequency: 5,
-        //     //alpha: {start: 1, end: 0},
-        //     scale: {start: 1, end: 0},
-        //     on: false
-        // });
+        this.emitter = this.particles.createEmitter({
+            x: {min: 0, max: 100},
+            y: {min:0, max: 100},
+            speed: 50,
+            lifespan: 1500,
+            blendMode: 'LUMINOSITY',
+            frequency: 5,
+            //alpha: {start: 1, end: 0},
+            scale: {start: 1, end: 0},
+            on: false
+        });
 
-        //adding particles to ghost when hurt 
-        //this.particles.emitParticleAt(ship.x, ship.y, 25);
     }
 
     update(time, delta) {

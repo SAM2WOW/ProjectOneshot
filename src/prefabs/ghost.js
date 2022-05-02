@@ -146,11 +146,11 @@ class Ghost extends Phaser.GameObjects.Sprite {
 
         // bad shot
         if (this.locked || this.progress < 0.5) {
-            console.log("-- bad locking for this boy");
-            console.log("Locking State: " + this.locked);
-            console.log("Progress State: " + this.progress);
-            console.log("Health state: " + this.health);
-            console.log("-----------------------------------------------------");
+            // console.log("-- bad locking for this boy");
+            // console.log("Locking State: " + this.locked);
+            // console.log("Progress State: " + this.progress);
+            // console.log("Health state: " + this.health);
+            // console.log("-----------------------------------------------------");
             return false;
         }
 

@@ -168,6 +168,26 @@ class Play extends Phaser.Scene {
         this.time.delayedCall(3000, () => {
             this.makeTurn();
         });
+
+        //particles researched from https://rexrainbow.github.io/phaser3-rex-notes/docs/site/particles/
+        //particle manager
+        //"love" is the image I used in Love Patrol, image needs to defined in preload
+        //this.particles = this.add.particles('love');
+        //particle emitter
+        // this.emitter = this.particles.createEmitter({
+        //     x: {min: 0, max: 100},
+        //     y: {min:0, max: 100},
+        //     speed: 50,
+        //     lifespan: 1500,
+        //     blendMode: 'LUMINOSITY',
+        //     frequency: 5,
+        //     //alpha: {start: 1, end: 0},
+        //     scale: {start: 1, end: 0},
+        //     on: false
+        // });
+
+        //adding particles to ghost when hurt 
+        //this.particles.emitParticleAt(ship.x, ship.y, 25);
     }
 
     update(time, delta) {

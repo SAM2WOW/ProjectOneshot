@@ -97,9 +97,13 @@ class Ghost extends Phaser.GameObjects.Sprite {
         // this.shadow.x = this.x;
         // this.shadow.y = space.y + this.scene.lerp(0, 300, space.curvedProgress);
 
-        // perfect timeing tint (between 0.82 and 0.95)
+        // shading
+        let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
+        this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
+        
+        // perfect timeing (between 0.82 and 0.95)
         if (this.progress >= 0.80 && this.progress <= 0.90) {
-            this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
+            // this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             
             if (!this.perfectShot) {
                 this.play(this.animName + '_perfect');
@@ -108,9 +112,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
             this.perfectShot = true;
 
         } else {
-            // shading
-            let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
-            this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
 
             if (this.perfectShot) {
                 this.play(this.animName + '_normal');
@@ -184,14 +185,14 @@ class Ghost extends Phaser.GameObjects.Sprite {
             this.scene.tweens.add({
                 targets: this,
                 scale: { from: this.scale, to: 0.01 },
-                alpha: { from: 1, to: 0.01 },
-                // y: { from: this.y, to: this.y - 1000 },
+                alpha: { from: 0.6, to: 0.01 },
+                y: { from: this.y, to: this.y - 100 },
                 duration: 500,
                 ease: 'Sine.easeInOut',
             });
 
         } else {
-            this.angle += 45;
+            // this.angle += 45;
             this.scene.tweens.add({
                 targets: this,
                 progress: {from: this.progress, to: 0.6},

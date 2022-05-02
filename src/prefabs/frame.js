@@ -117,7 +117,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         // lower combo cooldown
         if (this.comboCoolDown > 0) {
-            this.comboCoolDown -= delta / 16;
+            this.comboCoolDown -= (delta / 16) * 0.8;
 
             this.comboBar.width = Phaser.Math.Clamp((this.comboCoolDown / 100), 0, 1) * 100;
         } else {

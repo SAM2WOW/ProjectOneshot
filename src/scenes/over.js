@@ -9,9 +9,9 @@ class Over extends Phaser.Scene {
 
     create() {
         
-        //play hurt noise
+        //play dead noise
         this.sfxdeath = this.scene.sound.add('death');
-        this .sfxdeath.play();
+        this.sfxdeath.play();
 
 
         this.title = this.add.text(game.config.width / 2, game.config.height / 4, ["YOU'RE", "DEAD!!!"], {fontFamily: "PixelFont"});

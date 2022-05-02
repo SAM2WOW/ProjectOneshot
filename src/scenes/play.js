@@ -53,7 +53,10 @@ class Play extends Phaser.Scene {
 
         this.load.audio('shoot', 'shoot.mp3');
         this.load.audio('focus', 'focus.mp3');
+        this.load.audio('heart', 'heart.mp3');
         this.load.audio('hurt', 'hurt.mp3');
+        this.load.audio('ghost_kill', 'ghost_kill.mp3');
+        this.load.audio('perfect', 'perfect.mp3');
         this.load.audio('death', 'death.mp3'); //i cant figure out how to make this one work, leaving it here for now. supposed to play on death.
 
     }   
@@ -183,7 +186,10 @@ class Play extends Phaser.Scene {
     damage() {
         this.health--;
         this.healthText.setText("❤️".repeat(this.health));
-    
+        
+        //play hurt noise
+        this.sfxhurt = this.sound.add('hurt');
+        this.sfxhurt.play();
 
         if (this.health <= 0) {
             this.stopGame();
@@ -193,6 +199,10 @@ class Play extends Phaser.Scene {
     heal() {
         this.health = Phaser.Math.Clamp(this.health + 1, 0, 3);
         this.healthText.setText("❤️".repeat(this.health));
+
+        //play heal noise
+        this.sfxheal = this.sound.add('heart');
+        this.sfxheal.play();
     }
 
     stopGame() {

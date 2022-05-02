@@ -66,10 +66,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
         // ghost attack!
         if (this.progress >= 1) {
             this.scene.damage();
-            
-            //play hurt noise
-            this.sfxhurt = this.scene.sound.add('hurt');
-            this.sfxhurt.play();
 
             console.log("ghost killed you haha");
             this.scene.ghosts.remove(this, true);
@@ -158,25 +154,46 @@ class Ghost extends Phaser.GameObjects.Sprite {
             frame.comboText.setVisible(true);
             frame.comboBar.setVisible(true);
             frame.comboBarBG.setVisible(true);
-        
+            
+            this.sfxperfect = this.scene.sound.add('perfect');
+            this.sfxperfect.detune = frame.combo * 100;
+            this.sfxperfect.volume = this.scene.lerp(0.5, 1, Math.random());
+            this.sfxperfect.play();
+
         }
+
+        this.sfxkill = this.scene.sound.add('ghost_kill');
+        this.sfxkill.detune = this.scene.lerp(0, 500, Math.random());
+        this.sfxkill.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfxkill.play();
 
         this.health -= 1;
 
         this.play(this.animName + '_hurt');
         
-        // check for health results
+        // check if ghost is killed 
         if (this.health <= 0) {
             console.log("ghost died");
             this.dead = true;
-
-            // if ghost is a heart, add a heart
-            if (this.type === heartGhost) {
-                this.scene.heal();
-            }
-
+            
             // kill the visual 
             this.lockHint.destroy();
+
+
+            switch (this.type) {
+                case normalGhost:
+                    break;
+                case heartGhost:
+                    // if ghost is a heart, add a heart
+                    this.scene.heal();
+                    break;
+                case splitGhost:
+                    break;
+                case fastGhost:
+                    break;
+                default:
+            }
+
 
             // (delay) kill the ghost
             frame.killedGhosts.push(this);

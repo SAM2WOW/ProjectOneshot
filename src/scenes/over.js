@@ -10,7 +10,7 @@ class Over extends Phaser.Scene {
     create() {
         
         //play dead noise
-        this.sfxdeath = this.scene.sound.add('death');
+        this.sfxdeath = this.sound.add('death');
         this.sfxdeath.play();
 
 

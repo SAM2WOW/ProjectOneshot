@@ -117,7 +117,8 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         // lower combo cooldown
         if (this.comboCoolDown > 0) {
-            this.comboCoolDown -= (delta / 16) * 0.8;
+            // console.log("cooling down combo" + this.scene.lerp(0.3, 2, Phaser.Math.Clamp(this.combo, 0, 10) / 10));
+            this.comboCoolDown -= (delta / 16) * this.scene.lerp(0.3, 2, Phaser.Math.Clamp(this.combo, 0, 10) / 10);
 
             this.comboBar.width = Phaser.Math.Clamp((this.comboCoolDown / 100), 0, 1) * 100;
         } else {
@@ -179,7 +180,7 @@ class Frame extends Phaser.GameObjects.Sprite {
             // play explosion sound
             this.sfxfocus = this.scene.sound.add('focus');
             this.sfxfocus.detune = this.lockedGhosts.length * 200;
-            this.sfxfocus.volume = this.scene.lerp(0.5, 1, Math.random());
+            this.sfxfocus.volume = this.scene.lerp(1, 2, Math.random());
             this.sfxfocus.play();
         }
     }
@@ -216,7 +217,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         this.sfxshoot = this.scene.sound.add('shoot');
         this.sfxshoot.detune = this.scene.lerp(-300, 300, Math.random());
-        this.sfxshoot.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfxshoot.volume = this.scene.lerp(1, 2, Math.random());
         this.sfxshoot.play();
     }
 }

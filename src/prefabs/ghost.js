@@ -28,7 +28,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         // variables
         this.progress = 0;
-        this.health = Math.round(Math.random() * 3);
+        this.health = Math.ceil(Math.random() * 3);
         this.perfectShot = false;
         this.locked = false;
         this.dead = false;
@@ -37,30 +37,34 @@ class Ghost extends Phaser.GameObjects.Sprite {
         this.yOffset = y;
         
         this.speedMultiplier = 1;
+
         
         // ghost type
         this.type = type;
         this.animName = ['normal_ghost', 'heart_ghost', 'normal_ghost', 'normal_ghost'][this.type];
-
+        
         switch (this.type) {
             case normalGhost:
                 this.play(this.animName + '_normal');
                 break;
-            case heartGhost:
-                this.play(this.animName + '_normal');
-                this.health = 1;
-                break;
-            case splitGhost:
-
-                break;
-            case fastGhost:
-                this.play({ key: 'normal_ghost_normal', frameRate: 12 });
-                this.speedMultiplier = 1.5;
-                break;
-            default:
+                case heartGhost:
+                    this.play(this.animName + '_normal');
+                    this.health = 1;
+                    break;
+                    case splitGhost:
+                        
+                        break;
+                        case fastGhost:
+                            this.play({ key: 'normal_ghost_normal', frameRate: 12 });
+                            this.speedMultiplier = 1.5;
+                            break;
+                            default:
         }
-    }
 
+        // rotate the ghost base on their health
+        this.angle = -90 * (this.health - 1);
+    }
+    
     update(time, delta) {
         // don't update if dead
         if (this.dead) {
@@ -239,6 +243,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
             });
 
         } else {
+            this.angle += 90;
             this.scene.tweens.add({
                 targets: this,
                 progress: {from: this.progress, to: 0.6},

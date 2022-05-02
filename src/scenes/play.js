@@ -50,6 +50,8 @@ class Play extends Phaser.Scene {
         // this.textures.addSpriteSheetFromAtlas("heart_ghost", {atlas: "some_ghosts", frame: "heart", frameHeight: 240, frameWidth: 240});
         this.load.spritesheet("some_ghosts", "some_ghosts.png", {frameWidth: 240, frameHeight: 240, startFrame: 0, endFrame: 10});
 
+        this.load.spritesheet('health', 'life_hearts.png', {frameWidth: 360, frameHeight: 640, startFrame: 0, endFrame: 6});
+
         //loading sounds
         this.load.path = 'assets/sounds/';
 
@@ -138,7 +140,7 @@ class Play extends Phaser.Scene {
 
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
-        this.frame.setDepth(100);
+        this.frame.setDepth(150);
 
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
@@ -149,10 +151,14 @@ class Play extends Phaser.Scene {
         this.distanceText.setShadow(0, 2, '#000000', 0, false, true);
 
         // add health text
-        this.healthText = this.add.text(10, game.config.height - 50, "❤️".repeat(this.health));
-        this.healthText.setDepth(100);
-        this.healthText.setFontSize(30);
-        this.healthText.setOrigin(0, 0);
+        // this.healthText = this.add.text(10, game.config.height - 50, "❤️".repeat(this.health));
+        // this.healthText.setDepth(100);
+        // this.healthText.setFontSize(30);
+        // this.healthText.setOrigin(0, 0);
+
+        this.healthBar = this.add.image(game.config.width / 2, game.config.height / 2, 'health', 0);
+        this.healthBar.setDepth(140);
+        this.healthBar.setOrigin(0.5, 0.5);
 
         // add background music
         this.bgm = this.sound.add('bgm');
@@ -284,7 +290,8 @@ class Play extends Phaser.Scene {
 
     damage() {
         this.health--;
-        this.healthText.setText("❤️".repeat(this.health));
+        // this.healthText.setText("❤️".repeat(this.health));
+        this.healthBar.setFrame(this.health * 2);
         
         //play hurt noise
         this.sfxhurt = this.sound.add('hurt');
@@ -301,7 +308,7 @@ class Play extends Phaser.Scene {
         }
 
         this.health++;
-        this.healthText.setText("❤️".repeat(this.health));
+        // this.healthText.setText("❤️".repeat(this.health));
 
         //play heal noise
         this.sfxheal = this.sound.add('heart');

@@ -202,8 +202,8 @@ class Play extends Phaser.Scene {
 
         //play heal noise
         this.sfxheal = this.sound.add('heart');
-        this.sfxheal.detune = this.scene.lerp(0, 500, Math.random());
-        this.sfxheal.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfxheal.detune = this.lerp(0, 500, Math.random());
+        this.sfxheal.volume = this.lerp(0.5, 1, Math.random());
         this.sfxheal.play();
     }
 

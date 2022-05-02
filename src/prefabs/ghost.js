@@ -33,7 +33,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         // ghost type
         this.type = type;
-        this.animName = ['normal_ghost', 'heart_ghost'][this.type];
+        this.animName = ['normal_ghost', 'heart_ghost', 'normal_ghost', 'normal_ghost'][this.type];
 
         switch (this.type) {
             case normalGhost:

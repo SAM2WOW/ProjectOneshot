@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
     get3DSpace(xOffset, yOffset, time, progress) {
         let curvedProgress = progress ** 5;
         let x = game.config.width / 2 + xOffset * curvedProgress + this.lerp(game.turningOffset, 0, progress);
-        let y = game.config.height / 2 + yOffset * curvedProgress - Math.abs(Math.sin(time / 200) * 20) * (curvedProgress);
+        let y = game.config.height / 2 + yOffset * curvedProgress - Math.abs(Math.sin(time / 300) * 20) * (curvedProgress);
         return {x: x, y: y, curvedProgress: curvedProgress};
     }
 
@@ -52,6 +52,7 @@ class Play extends Phaser.Scene {
         //loading sounds
         this.load.path = 'assets/sounds/';
 
+        this.load.audio('bgm', 'bgm.ogg');
         this.load.audio('shoot', 'shoot.mp3');
         this.load.audio('focus', 'focus.mp3');
         this.load.audio('heart', 'heart.mp3');
@@ -138,16 +139,6 @@ class Play extends Phaser.Scene {
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(100);
 
-        // initial delay call for random add ghost
-        this.time.delayedCall(500, () => {
-            this.spawnGhost();
-        });
-
-        // initial delay call for turning
-        this.time.delayedCall(3000, () => {
-            this.makeTurn();
-        });
-
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
         this.distanceText.setPosition(game.config.width / 2, 30);
@@ -161,6 +152,22 @@ class Play extends Phaser.Scene {
         this.healthText.setDepth(100);
         this.healthText.setFontSize(30);
         this.healthText.setOrigin(0, 0);
+
+        // add background music
+        this.bgm = this.sound.add('bgm');
+        this.bgm.loop = true;
+        this.bgm.volume = 0.3;
+        this.bgm.play();
+
+        // initial delay call for random add ghost
+        this.time.delayedCall(500, () => {
+            this.spawnGhost();
+        });
+
+        // initial delay call for turning
+        this.time.delayedCall(3000, () => {
+            this.makeTurn();
+        });
     }
 
     update(time, delta) {
@@ -283,9 +290,8 @@ class Play extends Phaser.Scene {
     stopGame() {
         this.gameOver = true;
         
+        this.bgm.stop();
 
-        this.scene.remove(this);
-        
         this.scene.start("over");
     }
 }

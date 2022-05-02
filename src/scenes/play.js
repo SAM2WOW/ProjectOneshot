@@ -40,7 +40,8 @@ class Play extends Phaser.Scene {
         this.load.image('wall1', 'hallway_01.png');
         this.load.image('wall2', 'hallway_02.png');
         this.load.image('wall3', 'hallway_03.png');
-        this.load.image('frame', 'temp_frame.png');
+        this.load.image('frame', 'focus_frame.png');
+        this.load.image('ui_frame', 'frame_UI.png');
         this.load.image('eyeaf', 'focus.png');
 
         //loading ghost atlas (key, spritesheet, json file)

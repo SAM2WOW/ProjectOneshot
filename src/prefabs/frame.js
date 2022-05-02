@@ -16,6 +16,11 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         this.setAlpha(0);
 
+        // add frame UI
+        this.frameUI = scene.add.image(game.config.width / 2, game.config.height / 2, 'ui_frame');
+        this.frameUI.setDepth(100);
+        this.frameUI.setAlpha(0.8);
+        
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
         scene.input.on('pointerup', function (pointer) {
@@ -44,7 +49,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
                 this.charging = true;
 
-                this.setAlpha(0.5);
+                this.setAlpha(0.8);
 
                 scene.tweens.add({
                     targets: scene,
@@ -62,6 +67,7 @@ class Frame extends Phaser.GameObjects.Sprite {
                 });
             }
         }, this);
+
 
         // UI
         this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y + 100, 100, 20, 0x32a852)); 

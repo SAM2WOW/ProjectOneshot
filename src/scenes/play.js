@@ -291,6 +291,7 @@ class Play extends Phaser.Scene {
     damage() {
         this.health--;
         // this.healthText.setText("❤️".repeat(this.health));
+        
         this.healthBar.setFrame(5 - (this.health * 2));        
         this.time.delayedCall(150, () => {
             this.healthBar.setFrame(6 - (this.health * 2));  
@@ -312,6 +313,7 @@ class Play extends Phaser.Scene {
 
         this.health++;
         // this.healthText.setText("❤️".repeat(this.health));
+
         this.healthBar.setFrame(7 - (this.health * 2));        
         this.time.delayedCall(150, () => {
             this.healthBar.setFrame(6 - (this.health * 2));  

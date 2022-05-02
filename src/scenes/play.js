@@ -59,6 +59,17 @@ class Play extends Phaser.Scene {
         this.load.audio('perfect', 'perfect.mp3');
         this.load.audio('death', 'death.mp3'); //i cant figure out how to make this one work, leaving it here for now. supposed to play on death.
 
+        this.load.audio('ghost_hurt1', 'ghost_hurt1.mp3');
+        this.load.audio('ghost_hurt2', 'ghost_hurt2.mp3');
+        this.load.audio('ghost_hurt3', 'ghost_hurt3.mp3');
+        this.load.audio('ghost_hurt4', 'ghost_hurt4.mp3');
+        this.load.audio('ghost_hurt5', 'ghost_hurt5.mp3');
+        this.load.audio('ghost_attack1', 'ghost_attack1.mp3');
+        this.load.audio('ghost_attack2', 'ghost_attack2.mp3');
+        this.load.audio('ghost_attack3', 'ghost_attack3.mp3');
+        this.load.audio('ghost_attack4', 'ghost_attack4.mp3');
+        this.load.audio('ghost_attack5', 'ghost_attack5.mp3');
+
     }   
 
     create() {

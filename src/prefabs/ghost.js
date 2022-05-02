@@ -9,10 +9,16 @@ class Ghost extends Phaser.GameObjects.Sprite {
 
         // locking visual
         this.lockHint = scene.add.image(0, 0, 'eyeaf');
-        this.lockHint.setScale(0.5);
+        this.lockHint.setScale(0.8);
         this.lockHint.setVisible(false);
-        this.lockHint.setAlpha(0.8);
+        this.lockHint.setAlpha(0.5);
         this.lockHint.setDepth(100);
+
+        this.perfectHint = scene.add.image(0, 0, 'eyeaf');
+        this.perfectHint.setScale(0.1);
+        this.perfectHint.setVisible(false);
+        this.perfectHint.setAlpha(0.5);
+        this.perfectHint.setDepth(100);
 
         // shadow
         // this.shadow = scene.add.ellipse(game.config.width / 2, game.config.height / 2, 3, 1, 0x000000);
@@ -86,7 +92,13 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         // lock hint visual
         this.lockHint.setPosition(this.x, this.y);
-        this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
+        // this.lockHint.setScale(this.scene.lerp(0.1, 2, space.curvedProgress));
+        //this.lockHint.setRotation(this.scene.lerp(0, Math.PI / 2, space.curvedProgress));
+
+        // perfect hint visual
+        this.perfectHint.setPosition(this.x, this.y);
+        this.perfectHint.setScale(this.progress);
+        this.perfectHint.setAlpha(this.scene.lerp(0, 0.8, this.progress));
         
         // update shadow
         // this.shadow.setScale(this.scene.lerp(0, 40, space.curvedProgress));
@@ -97,12 +109,17 @@ class Ghost extends Phaser.GameObjects.Sprite {
         let colorAmount = Phaser.Math.Clamp(space.curvedProgress * 1000, 0, 255);
         this.setTint(Phaser.Display.Color.GetColor(colorAmount, colorAmount, colorAmount));
         
-        // perfect timeing (between 0.82 and 0.95)
+        // perfect timeing (between 0.80 and 0.90)
         if (this.progress >= 0.80 && this.progress <= 0.90) {
             // this.setTint(Phaser.Display.Color.GetColor(237, 181, 38));
             
             if (!this.perfectShot) {
                 this.play(this.animName + '_perfect');
+
+                this.sfxhurt = this.scene.sound.add('ghost_attack' + Math.ceil(Math.random() * 5));
+                this.sfxhurt.detune = this.scene.lerp(-800, 800, Math.random());
+                this.sfxhurt.volume = this.scene.lerp(0.5, 1, Math.random());
+                this.sfxhurt.play();
             }
 
             this.perfectShot = true;
@@ -138,6 +155,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
     lock() {
         this.locked = true;
         this.lockHint.setVisible(true);
+        this.perfectHint.setVisible(true);
     }
 
     damage(frame) {
@@ -164,23 +182,28 @@ class Ghost extends Phaser.GameObjects.Sprite {
 
         }
 
-        this.sfxkill = this.scene.sound.add('ghost_kill');
-        this.sfxkill.detune = this.scene.lerp(0, 500, Math.random());
-        this.sfxkill.volume = this.scene.lerp(0.5, 1, Math.random());
-        this.sfxkill.play();
-
         this.health -= 1;
-
+        
         this.play(this.animName + '_hurt');
         
-        // check if ghost is killed 
+        this.sfxhurt = this.scene.sound.add('ghost_hurt' + Math.ceil(Math.random() * 5));
+        this.sfxhurt.detune = this.scene.lerp(-800, 800, Math.random());
+        this.sfxhurt.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfxhurt.play();
+
+        // check if ghost is killed
         if (this.health <= 0) {
             console.log("ghost died");
             this.dead = true;
             
             // kill the visual 
             this.lockHint.destroy();
-
+            this.perfectHint.destroy();
+            
+            this.sfxkill = this.scene.sound.add('ghost_kill');
+            this.sfxkill.detune = this.scene.lerp(0, 500, Math.random());
+            this.sfxkill.volume = this.scene.lerp(0.5, 1, Math.random());
+            this.sfxkill.play();
 
             switch (this.type) {
                 case normalGhost:
@@ -211,7 +234,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
             });
 
         } else {
-            // this.angle += 45;
             this.scene.tweens.add({
                 targets: this,
                 progress: {from: this.progress, to: 0.6},
@@ -226,5 +248,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         this.locked = false;
         this.lockHint.setVisible(false);
+        this.perfectHint.setVisible(false);
     }
 }

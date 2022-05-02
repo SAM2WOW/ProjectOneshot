@@ -64,7 +64,6 @@ class Frame extends Phaser.GameObjects.Sprite {
         }, this);
 
         // UI
-        //this.cooldownBar = scene.add.text(this.x, this.y, "Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
         this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x - 50, this.y + 100, 100, 20, 0x32a852)); 
         this.cooldownBarBG.setDepth(150);
         this.cooldownBarBG.setPosition(this.x, this.y + 100);

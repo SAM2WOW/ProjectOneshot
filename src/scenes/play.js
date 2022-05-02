@@ -38,7 +38,9 @@ class Play extends Phaser.Scene {
         this.load.path = 'assets/sprites/';
 
         this.load.image('camera', 'temp_camera.gif');
-        this.load.image('wall', 'hallway_01.png');
+        this.load.image('wall1', 'hallway_01.png');
+        this.load.image('wall2', 'hallway_02.png');
+        this.load.image('wall3', 'hallway_03.png');
         this.load.image('frame', 'temp_frame.png');
         this.load.image('eyeaf', 'focus.png');
 
@@ -114,7 +116,11 @@ class Play extends Phaser.Scene {
         // add multiple scrolling wall
         let wallCount = 14;
         for (let i = 0; i < wallCount; i++) {
-            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall', 1.2/wallCount * i);
+            let type = 1;
+            if (i % 4 == 0) {
+                type = Math.random() > 0.5 ? 2 : 3;
+            }
+            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i);
             this.walls.push(wall);
         }
 

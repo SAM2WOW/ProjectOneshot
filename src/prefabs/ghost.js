@@ -6,6 +6,8 @@ class Ghost extends Phaser.GameObjects.Sprite {
         
         this.setDepth(20);
         this.setAlpha(0.9);
+        this.setScale(0.01);
+        this.setTint(0x000000);
 
         // locking visual
         this.lockHint = scene.add.image(0, 0, 'eyeaf');

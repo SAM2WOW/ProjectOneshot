@@ -70,11 +70,11 @@ class Frame extends Phaser.GameObjects.Sprite {
 
 
         // UI
-        this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0x32a852)); 
-        this.cooldownBarBG.setDepth(140);
-        this.cooldownBarBG.setPosition(this.x + 141, this.y - 5);
-        this.cooldownBarBG.setOrigin(0, 0.5);
-        this.cooldownBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0xffffff));
+        // this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0x32a852)); 
+        // this.cooldownBarBG.setDepth(140);
+        // this.cooldownBarBG.setPosition(this.x + 141, this.y - 5);
+        // this.cooldownBarBG.setOrigin(0, 0.5);
+        this.cooldownBar = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0x1e2e67));
         this.cooldownBar.setDepth(140);
         this.cooldownBar.setPosition(this.x + 141, this.y - 5);
         this.cooldownBar.setOrigin(0, -0.5);
@@ -153,7 +153,7 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         // cooldown bar
         //this.cooldownBar.setText("Cooldown: " + Math.round(this.coolDown / this.totalCoolDown * 100) + "%");
-        this.cooldownBar.height = Phaser.Math.Clamp((this.coolDown / this.totalCoolDown), 0, 1) * -150;
+        this.cooldownBar.height = Phaser.Math.Clamp(1 - (this.coolDown / this.totalCoolDown), 0, 1) * -150;
         //this.chargeBar.setText("👻".repeat(this.lockedGhosts.length));
     }
 

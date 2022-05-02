@@ -291,8 +291,11 @@ class Play extends Phaser.Scene {
     damage() {
         this.health--;
         // this.healthText.setText("❤️".repeat(this.health));
-        this.healthBar.setFrame(this.health * 2);
-        
+        this.healthBar.setFrame(5 - (this.health * 2));        
+        this.time.delayedCall(150, () => {
+            this.healthBar.setFrame(6 - (this.health * 2));  
+        });
+
         //play hurt noise
         this.sfxhurt = this.sound.add('hurt');
         this.sfxhurt.play();
@@ -309,6 +312,10 @@ class Play extends Phaser.Scene {
 
         this.health++;
         // this.healthText.setText("❤️".repeat(this.health));
+        this.healthBar.setFrame(7 - (this.health * 2));        
+        this.time.delayedCall(150, () => {
+            this.healthBar.setFrame(6 - (this.health * 2));  
+        });
 
         //play heal noise
         this.sfxheal = this.sound.add('heart');
@@ -322,6 +329,8 @@ class Play extends Phaser.Scene {
         
         this.bgm.stop();
 
-        this.scene.start("over");
+        this.time.delayedCall(1000, () => {
+            this.scene.start("over");
+        });
     }
 }

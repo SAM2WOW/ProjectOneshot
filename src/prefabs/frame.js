@@ -93,6 +93,10 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.flash.setDepth(90);
         this.flash.setAlpha(0);
         this.flash.setOrigin(0, 0);
+
+        // here a combo sound that's waiting for triggers
+        // I put it here so it only trigger ones when perfect time
+        this.sfxperfect = this.scene.sound.add('perfect');
         
         this.setPosition(x, y);
     }

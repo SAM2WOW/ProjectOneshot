@@ -245,7 +245,7 @@ class Play extends Phaser.Scene {
         });
 
         // spawn next ghost
-        let maxTime = this.lerp(5000, 2000, Phaser.Math.Clamp(this.distance / 200, 0, 1));
+        let maxTime = this.lerp(5000, 1000, Phaser.Math.Clamp(this.distance / 200, 0, 1));
         let minTime = this.lerp(2000, 500, Phaser.Math.Clamp(this.distance / 200, 0, 1));
         this.time.delayedCall(this.lerp(minTime, maxTime, Math.random()), () => {
             this.spawnGhost();

@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         game.scrollingSpeed = 0.003;
         game.turningOffset = 0;
 
-        this.walls = [];
+        this.walls = new Phaser.GameObjects.Group(this);
         this.ghosts = new Phaser.GameObjects.Group(this);
 
         this.cameraOffsetY = 0;
@@ -121,7 +121,7 @@ class Play extends Phaser.Scene {
                 type = Math.random() > 0.5 ? 2 : 3;
             }
             let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i);
-            this.walls.push(wall);
+            this.walls.add(wall);
         }
 
         // add camera
@@ -133,7 +133,7 @@ class Play extends Phaser.Scene {
         this.dynamicCamera = this.add.renderTexture(360, game.config.height / 2, game.config.width, game.config.width);
         this.dynamicCamera.setOrigin(0.5, 0.5);
         this.dynamicCamera.setDepth(110);
-        this.dynamicCamera.setScale(0.1);
+        this.dynamicCamera.setDisplaySize(90, 70);
 
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
@@ -200,14 +200,16 @@ class Play extends Phaser.Scene {
         // game.turningOffset = Math.cos(time / 600) * 200;
 
         // update all walls
-        this.walls.forEach(wall => {
+        this.walls.getChildren().forEach(wall => {
             wall.update(time, delta);
         });
 
         // update camera and dynamic texture
         this.cameraSprite.setPosition(this.cameraSprite.x, game.config.height + this.cameraOffsetY - Math.abs(Math.sin(time / 200) * this.cameraShake));
         this.dynamicCamera.fill(0x000000);
-        this.dynamicCamera.draw(this.children, 0, 0);
+        // this.dynamicCamera.draw(this.children, 0, 0);
+        this.dynamicCamera.draw(this.walls, 0, 0);
+        this.dynamicCamera.draw(this.ghosts, 0, 0);
         this.dynamicCamera.setPosition(this.cameraSprite.x + 10, this.cameraSprite.y + 25);
 
         // update ghosts

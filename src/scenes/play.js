@@ -197,7 +197,11 @@ class Play extends Phaser.Scene {
     }
 
     heal() {
-        this.health = Phaser.Math.Clamp(this.health + 1, 0, 3);
+        if (this.health >= 3) {
+            return;
+        }
+
+        this.health++;
         this.healthText.setText("❤️".repeat(this.health));
 
         //play heal noise

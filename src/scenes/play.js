@@ -1,29 +1,13 @@
 class Play extends Phaser.Scene {
     constructor() {
         super("play");
-
-        // player variables
-        this.health = 3;
-        this.distance = 0;
-
-        // game states
-        this.gameOver = false;
-
-        game.scrollingSpeed = 0.003;
-        game.turningOffset = 0;
-
-        this.walls = new Phaser.GameObjects.Group(this);
-        this.ghosts = new Phaser.GameObjects.Group(this);
-
-        this.cameraOffsetY = 0;
-        this.cameraShake = 20;
     }
-
+    
     // helpful lerp function
     lerp(start, end, amt) {
         return (1-amt)*start+amt*end
     }
-
+    
     // global position finder
     get3DSpace(xOffset, yOffset, time, progress) {
         let curvedProgress = progress ** 5;
@@ -31,11 +15,11 @@ class Play extends Phaser.Scene {
         let y = game.config.height / 2 + yOffset * curvedProgress - Math.abs(Math.sin(time / 300) * 20) * (curvedProgress);
         return {x: x, y: y, curvedProgress: curvedProgress};
     }
-
+    
     preload() {
         //loading images as a group to look good
         this.load.path = 'assets/sprites/';
-
+        
         this.load.image('camera', 'temp_camera.gif');
         this.load.image('wall1', 'hallway_01.png');
         this.load.image('wall2', 'hallway_02.png');
@@ -45,19 +29,19 @@ class Play extends Phaser.Scene {
         this.load.image('ui_perfect', 'combo_bottom.png');
         this.load.image('eyeaf', 'focus.png');
         this.load.image('wisps', 'ghost_particles.png');
-
+        
         //scrapped atlas implmenetation
         //loading ghost atlas (key, spritesheet, json file)
         // this.load.atlas("some_ghosts", "some_ghosts.png", "some_ghosts.json");
         // this.textures.addSpriteSheetFromAtlas("normal_ghost", {atlas: "some_ghosts", frame: "normal", frameHeight: 240, frameWidth: 240});
         // this.textures.addSpriteSheetFromAtlas("heart_ghost", {atlas: "some_ghosts", frame: "heart", frameHeight: 240, frameWidth: 240});
         this.load.spritesheet("some_ghosts", "some_ghosts.png", {frameWidth: 240, frameHeight: 240, startFrame: 0, endFrame: 10});
-
+        
         this.load.spritesheet('health', 'heart_UI.png', {frameWidth: 117, frameHeight: 35, startFrame: 0, endFrame: 6});
-
+        
         //loading sounds
         this.load.path = 'assets/sounds/';
-
+        
         this.load.audio('bgm', 'bgm.ogg');
         this.load.audio('shoot', 'shoot.mp3');
         this.load.audio('focus', 'focus.mp3');
@@ -66,7 +50,7 @@ class Play extends Phaser.Scene {
         this.load.audio('ghost_kill', 'ghost_kill.mp3');
         this.load.audio('perfect', 'perfect.mp3');
         this.load.audio('death', 'death.mp3'); //i cant figure out how to make this one work, leaving it here for now. supposed to play on death.
-
+        
         this.load.audio('ghost_hurt1', 'ghost_hurt1.mp3');
         this.load.audio('ghost_hurt2', 'ghost_hurt2.mp3');
         this.load.audio('ghost_hurt3', 'ghost_hurt3.mp3');
@@ -77,10 +61,25 @@ class Play extends Phaser.Scene {
         this.load.audio('ghost_attack3', 'ghost_attack3.mp3');
         this.load.audio('ghost_attack4', 'ghost_attack4.mp3');
         this.load.audio('ghost_attack5', 'ghost_attack5.mp3');
-
     }   
-
+    
     create() {
+        // player variables
+        this.health = 3;
+        this.distance = 0;
+    
+        // game states
+        this.gameOver = false;
+    
+        game.scrollingSpeed = 0.003;
+        game.turningOffset = 0;
+    
+        this.walls = new Phaser.GameObjects.Group(this);
+        this.ghosts = new Phaser.GameObjects.Group(this);
+    
+        this.cameraOffsetY = 0;
+        this.cameraShake = 20;
+
         //add ghosts animations
         this.anims.create({
             key: 'normal_ghost_normal',
@@ -336,7 +335,6 @@ class Play extends Phaser.Scene {
         this.bgm.stop();
 
         this.time.delayedCall(1000, () => {
-            this.gameOver = false;
             this.scene.start("over");
         });
     }

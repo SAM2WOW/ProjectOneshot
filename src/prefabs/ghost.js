@@ -185,13 +185,11 @@ class Ghost extends Phaser.GameObjects.Sprite {
             frame.comboCircle.setVisible(true);
             // frame.comboBarBG.setVisible(true);
             
-            // combo sounds
-            if (!frame.sfxperfect.isPlaying) {
-                frame.sfxperfect.detune = frame.combo * 100;
-                frame.sfxperfect.volume = this.scene.lerp(0.5, 1, Math.random());
-                frame.sfxperfect.play();
+            // combo sounds (sequential playing cool stuff)
+            frame.sfxperfectQueue.push(frame.combo);
+            if (!frame.sfxperfectPlaying) {
+                frame.playComboSound();
             }
-
         }
 
         this.health -= 1;

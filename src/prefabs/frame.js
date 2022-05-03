@@ -109,6 +109,8 @@ class Frame extends Phaser.GameObjects.Sprite {
         // here a combo sound that's waiting for triggers
         // I put it here so it only trigger ones when perfect time
         this.sfxperfect = this.scene.sound.add('perfect');
+        this.sfxperfectPlaying = false;
+        this.sfxperfectQueue = [];
         
         this.setPosition(x, y);
     }
@@ -239,5 +241,27 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.sfxshoot.detune = this.scene.lerp(-300, 300, Math.random());
         this.sfxshoot.volume = this.scene.lerp(1, 2, Math.random());
         this.sfxshoot.play();
+    }
+
+    playComboSound() {
+        if (this.sfxperfectQueue.length > 0) {
+            this.sfxperfectPlaying = true;
+
+            // get next sound in queue
+            let next = this.sfxperfectQueue.shift();
+
+            console.log("Playing combo sound " + next);
+
+            this.sfxperfect.detune = next * 100;
+            this.sfxperfect.volume = this.scene.lerp(0.5, 1, Math.random());
+            this.sfxperfect.play();
+
+            this.scene.time.delayedCall(100, () => {
+                this.playComboSound();
+            });
+
+        } else {
+            this.sfxperfectPlaying = false;
+        }
     }
 }

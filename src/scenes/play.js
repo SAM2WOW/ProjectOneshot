@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         // this.textures.addSpriteSheetFromAtlas("heart_ghost", {atlas: "some_ghosts", frame: "heart", frameHeight: 240, frameWidth: 240});
         this.load.spritesheet("some_ghosts", "some_ghosts.png", {frameWidth: 240, frameHeight: 240, startFrame: 0, endFrame: 10});
 
-        this.load.spritesheet('health', 'life_hearts.png', {frameWidth: 360, frameHeight: 640, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('health', 'heart_UI.png', {frameWidth: 117, frameHeight: 35, startFrame: 0, endFrame: 6});
 
         //loading sounds
         this.load.path = 'assets/sounds/';
@@ -159,7 +159,7 @@ class Play extends Phaser.Scene {
         // this.healthText.setFontSize(30);
         // this.healthText.setOrigin(0, 0);
 
-        this.healthBar = this.add.image(game.config.width / 2, game.config.height / 2, 'health', 0);
+        this.healthBar = this.add.image(game.config.width / 2, + 100, 'health', 0);
         this.healthBar.setDepth(140);
         this.healthBar.setOrigin(0.5, 0.5);
 
@@ -317,7 +317,7 @@ class Play extends Phaser.Scene {
         // this.healthText.setText("❤️".repeat(this.health));
 
         this.healthBar.setFrame(7 - (this.health * 2));     
-        this.healthBar.setTintFill(0xd77bba);   
+        this.healthBar.setTintFill(0xfcba03);   
         this.time.delayedCall(150, () => {
             this.healthBar.setFrame(6 - (this.health * 2));
             this.healthBar.clearTint();  

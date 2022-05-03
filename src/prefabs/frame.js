@@ -197,13 +197,13 @@ class Frame extends Phaser.GameObjects.Sprite {
             cloest.lock();
             this.lockedGhosts.push(cloest);
 
-            // this.scene.tweens.add({
-            //     targets: this.scene.cameraSprite,
-            //     duration: 100,
-            //     scaleY: {from: 3, to: 1},
-            //     ease: 'Power2',
-            //     yoyo: true,
-            // });
+            this.scene.tweens.add({
+                targets: this.scene.cameraSprite,
+                duration: 100,
+                scale: {from: 3, to: 2.8},
+                ease: 'Circ.easeOut',
+                yoyo: true,
+            });
 
             // play explosion sound
             this.sfxfocus = this.scene.sound.add('focus');

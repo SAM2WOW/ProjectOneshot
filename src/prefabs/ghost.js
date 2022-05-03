@@ -125,10 +125,17 @@ class Ghost extends Phaser.GameObjects.Sprite {
 
                 this.play(this.animName + '_perfect');
 
-                this.sfxhurt = this.scene.sound.add('ghost_attack' + Math.ceil(Math.random() * 5));
-                this.sfxhurt.detune = this.scene.lerp(-800, 800, Math.random());
-                this.sfxhurt.volume = this.scene.lerp(0.5, 1, Math.random());
-                this.sfxhurt.play();
+                this.sfxattack = this.scene.sound.add('ghost_attack' + Math.ceil(Math.random() * 5));
+                this.sfxattack.detune = this.scene.lerp(-800, 800, Math.random());
+                this.sfxattack.volume = this.scene.lerp(0.5, 1, Math.random());
+                this.sfxattack.play();
+
+                this.scene.tweens.add({
+                    targets: this.lockHint,
+                    angle: {from: 10, to: 0},
+                    duration: 100,
+                    ease: 'Cubic.easeOut',
+                });
             }
 
             this.perfectShot = true;

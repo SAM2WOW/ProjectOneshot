@@ -127,7 +127,23 @@ class Play extends Phaser.Scene {
             }
             let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i);
             this.walls.add(wall);
+
+            // add a slick spawning effect
+            wall.visible = true;
+            wall.alpha = 0;
+            this.tweens.add({
+                targets: wall,
+                duration: 1000,
+                delay: i * 100,
+                angle: {from: -90 + 12.8 * i, to: 0},
+                alpha: {from: 0, to: 1},
+                ease: 'Cubic.easeOut',
+                onComplete: () => {
+                }
+            });
         }
+
+        this.cameras.main.fadeIn(500);
 
         // add camera
         this.cameraSprite = this.add.image(game.config.width / 2, game.config.height, 'camera');
@@ -143,7 +159,7 @@ class Play extends Phaser.Scene {
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(150);
-
+        
         // add text
         this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
         this.distanceText.setPosition(game.config.width / 2, 30);
@@ -151,17 +167,24 @@ class Play extends Phaser.Scene {
         this.distanceText.setOrigin(0.5, 0);
         this.distanceText.setFontSize(40);
         this.distanceText.setShadow(0, 2, '#000000', 0, false, true);
+        this.tweens.add({
+            targets: this.distanceText,
+            duration: 500,
+            y: {from: 0, to: this.distanceText.y},
+            ease: 'Cubic.easeOut',
+        });
 
-        // add health text
-        // this.healthText = this.add.text(10, game.config.height - 50, "❤️".repeat(this.health));
-        // this.healthText.setDepth(100);
-        // this.healthText.setFontSize(30);
-        // this.healthText.setOrigin(0, 0);
-
+        // add health        
         this.healthBar = this.add.image(game.config.width / 2, + 100, 'health', 0);
         this.healthBar.setDepth(140);
         this.healthBar.setOrigin(0.5, 0.5);
-
+        this.tweens.add({
+            targets: this.healthBar,
+            duration: 500,
+            y: {from: 0, to: this.healthBar.y},
+            ease: 'Cubic.easeOut',
+        });
+        
         // add background music
         this.bgm = this.sound.add('bgm');
         this.bgm.loop = true;

@@ -183,7 +183,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
             frame.comboText.setVisible(true);
             frame.comboCircle.setVisible(true);
             frame.comboBar.setVisible(true);
-            frame.comboBar.fillColor = 0xffdd03;
+            frame.comboBar.fillColor = 0xffffff;
             this.scene.time.delayedCall(100, function () {
                 frame.comboBar.fillColor = 0xfcba03;
             });

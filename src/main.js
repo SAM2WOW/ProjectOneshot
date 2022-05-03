@@ -1,3 +1,21 @@
+// Collaborator names:
+// - Sam Feng
+// - Jose Salas
+// - Ryoma Marta-Sugawara 
+
+// Game title:
+// - Spooky Picture Game Deluxe
+
+// Date completed:
+// - 5/2/2022
+
+// Creative tilt:
+// - Beautiful Pixel Art
+// - Spooky Music
+// - Dynamic Sound Effects
+// - Pseudo 3D
+// 
+
 var config = {
     type: Phaser.AUTO,
     scale: {

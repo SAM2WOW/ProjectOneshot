@@ -357,6 +357,10 @@ class Play extends Phaser.Scene {
         
         this.bgm.stop();
 
+        this.time.delayedCall(700, () => {
+            this.cameras.main.fadeOut(300);
+        });
+
         this.time.delayedCall(1000, () => {
             this.scene.start("over");
         });

@@ -16,10 +16,14 @@ class Frame extends Phaser.GameObjects.Sprite {
 
         this.setAlpha(0);
 
+        // add a container for all the ui elements
+        this.frameUIContainer = new Phaser.GameObjects.Container(scene, 0, 0);
+
         // add frame UI
-        this.frameUI = scene.add.image(game.config.width / 2, game.config.height / 2, 'ui_frame');
+        this.frameUI = scene.add.image(this.x, this.y, 'ui_frame');
         this.frameUI.setDepth(150);
         this.frameUI.setAlpha(1);
+        // this.frameUIContainer.add(this.frameUI);
         
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
@@ -92,7 +96,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         this.comboCircle.setDepth(140);
         this.comboCircle.setVisible(false);
 
-        this.comboText = scene.add.text(this.x - 149, this.y + 49, 23, {fontFamily: "PixelFont", fontSize: "20px", color: "#306082"});
+        this.comboText = scene.add.text(this.x - 149, this.y + 48, 23, {fontFamily: "PixelFont", fontSize: "20px", color: "#306082"});
         this.comboText.setDepth(140);
         this.comboText.setOrigin(0.5, 0.5);
         this.comboText.setVisible(false);

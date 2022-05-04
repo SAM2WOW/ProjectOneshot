@@ -43,14 +43,19 @@ class Menu extends Phaser.Scene {
             this.scene.start("play");
         });
 
+        //draw stuff on title screen
         this.titleSprite = this.add.image(game.config.width /2,  (game.config.height / 2) - 60, 'title').setOrigin(0.5,0.5);
         this.titleSprite.setScale(1.2 * (game.config.width/game.config.height));
         
         this.instruction1 = this.add.text((game.config.width / 2), (game.config.height / 2)+ 125, ["Tap/Click/Spacebar to Play", "'X' to show/hide tutorial"], {fontFamily: "PixelFont", align: "center"});
         this.instruction1.setOrigin(0.5, 0.5);
         this.instruction1.setFontSize(24);
-
         
+        this.instruction2 = this.add.text((game.config.width / 2), (game.config.height / 2), ["Tap, use spacebar, or click.","Hold to aim at targets,", "Release to take a photo.", "Your camera has a cooldown bar.", "Golden reticles give you combos,", "Combos hasten your cooldown.", "Heart-shaped ghosts will", "give you life.", "Press X to eXit."], {fontFamily: "PixelFont"});
+        this.instruction2.setOrigin(0.5, 0.5);
+        this.instruction2.setFontSize(24 / 1.2 * (game.config.width/game.config.height));
+        this.instruction2.visible = 0;
+
         // add a slick spawning effect
         this.titleSprite.alpha = 0;
         this.tweens.add({
@@ -64,6 +69,21 @@ class Menu extends Phaser.Scene {
                 //this.floatTitleUp();
             }
         });
+
+        //toggle tutorial on and off
+        this.input.keyboard.on('keydown-' + 'X', () => {
+            console.log("checking!")
+            if (this.instruction2.visible == 0) {
+                this.titleSprite.visible = 0;
+                this.instruction1.visible = 0;
+                this.instruction2.visible = 1;
+            } else if (this.instruction2.visible == 1) {
+                this.titleSprite.visible = 1;
+                this.instruction1.visible = 1;
+                this.instruction2.visible = 0;
+            }
+        }, this);
+        
 
         /*this.anims.create({
             key: 'tutorial',

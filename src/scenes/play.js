@@ -24,6 +24,9 @@ class Play extends Phaser.Scene {
         this.load.image('wall1', 'hallway_01.png');
         this.load.image('wall2', 'hallway_02.png');
         this.load.image('wall3', 'hallway_03.png');
+        this.load.image('wall_shadow_1', 'hallway_shadow_01.png');
+        this.load.image('wall_shadow_2', 'hallway_shadow_02.png');
+        this.load.image('wall_shadow_3', 'hallway_shadow_03.png');
         this.load.image('frame', 'focus_frame.png');
         this.load.image('ui_frame', 'frame_UI.png');
         this.load.image('ui_perfect', 'combo_bottom.png');
@@ -125,10 +128,11 @@ class Play extends Phaser.Scene {
             if (i % 4 == 0) {
                 type = Math.random() > 0.5 ? 2 : 3;
             }
+
             let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i, false);
             this.walls.add(wall);
 
-            let wallShadow = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i - 0.1);
+            let wallShadow = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall_shadow_' + type, 1.2/wallCount * i - 0.015);
             this.walls.add(wallShadow);
 
             // add a slick spawning effect

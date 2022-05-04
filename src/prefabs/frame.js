@@ -155,15 +155,15 @@ class Frame extends Phaser.GameObjects.Sprite {
     
             this.setAlpha(0.8);
     
-            scene.tweens.add({
-                targets: scene,
+            this.scene.tweens.add({
+                targets: this.scene,
                 cameraOffsetY: {from: 0, to: -80},
                 cameraShake: {from: 20, to: 5},
                 duration: 200,
                 ease: 'Cubic.easeOut',
             });
     
-            scene.tweens.add({
+            this.scene.tweens.add({
                 targets: this,
                 scale: {from: 1.5, to: 1},
                 duration: 100,
@@ -180,8 +180,8 @@ class Frame extends Phaser.GameObjects.Sprite {
     
             this.setAlpha(0);
     
-            scene.tweens.add({
-                targets: scene,
+            this.scene.tweens.add({
+                targets: this.scene,
                 cameraOffsetY: {from: -80, to: 0},
                 cameraShake: {from: 5, to: 20},
                 duration: 300,

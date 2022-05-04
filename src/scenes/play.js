@@ -356,6 +356,7 @@ class Play extends Phaser.Scene {
     }
 
     stopGame() {
+        previousScore = Math.round(this.distance);
         this.gameOver = true;
         
         this.bgm.stop();

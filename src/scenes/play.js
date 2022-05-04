@@ -20,7 +20,7 @@ class Play extends Phaser.Scene {
         //loading images as a group to look good
         this.load.path = 'assets/sprites/';
         
-        this.load.image('camera', 'temp_camera.gif');
+        this.load.image('camera', 'camera.png');
         this.load.image('wall1', 'hallway_01.png');
         this.load.image('wall2', 'hallway_02.png');
         this.load.image('wall3', 'hallway_03.png');

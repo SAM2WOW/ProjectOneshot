@@ -45,15 +45,15 @@ class Menu extends Phaser.Scene {
 
         //draw stuff on title screen
         this.titleSprite = this.add.image(game.config.width /2,  (game.config.height / 2) - 60, 'title').setOrigin(0.5,0.5);
-        this.titleSprite.setScale(1.2 * (game.config.width/game.config.height));
+        this.titleSprite.setScale(1 * (game.config.width/game.config.height));
         
-        this.instruction1 = this.add.text((game.config.width / 2), (game.config.height / 2)+ 125, ["Tap/Click/Spacebar to Play", "'X' to show/hide tutorial"], {fontFamily: "PixelFont", align: "center"});
+        this.instruction1 = this.add.text((game.config.width / 2), game.config.height - 90, ["Tap/Click/Spacebar to Play", "'X' to show/hide tutorial", "", "F5 to fill screen"], {fontFamily: "PixelFont", align: "center"});
         this.instruction1.setOrigin(0.5, 0.5);
         this.instruction1.setFontSize(24);
         
-        this.instruction2 = this.add.text((game.config.width / 2), (game.config.height / 2), ["Tap, use spacebar, or click.","Hold to aim at targets,", "Release to take a photo.", "Your camera has a cooldown bar.", "Golden reticles give you combos,", "Combos hasten your cooldown.", "Heart-shaped ghosts will", "give you life.", "Press X to eXit."], {fontFamily: "PixelFont"});
+        this.instruction2 = this.add.text((game.config.width / 2), (game.config.height / 2), ["Use Tap/Click/Spacebar", "Hold to focus", "Release to shoot", "", " - You can focus multiple targets", " - Camera need to reload after shot", " - Golden distance give you combos", " - Combos hasten your cooldown", " - Heart ghosts restore your heart", "", "Press 'X' to go back"], {fontFamily: "PixelFont"});
         this.instruction2.setOrigin(0.5, 0.5);
-        this.instruction2.setFontSize(24 / 1.2 * (game.config.width/game.config.height));
+        this.instruction2.setFontSize(24 / 1.5 * (game.config.width/game.config.height));
         this.instruction2.visible = 0;
 
         // add a slick spawning effect
@@ -62,9 +62,9 @@ class Menu extends Phaser.Scene {
             targets: this.titleSprite,
             duration: 500,
             delay: 0,
-            angle: {from: -90, to: 0},
+            angle: {from: -40, to: 0},
             alpha: {from: 0, to: 1},
-            ease: 'Cubic.easeInOut',
+            ease: 'Bounce',
             onComplete: () => {
                 //this.floatTitleUp();
             }

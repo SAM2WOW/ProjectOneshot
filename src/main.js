@@ -63,6 +63,7 @@ const easyLevel = [
 ];
 
 //scoring variables
+let distance = 0;
 let previousScore = 0;
 let scoreString = "";
 

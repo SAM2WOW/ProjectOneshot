@@ -2,7 +2,6 @@ class Ghost extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, type) {
         super(scene, game.config.width / 2 + x, game.config.height / 2 + y, texture);
         scene.add.existing(this);
-        scene.physics.add.existing(this);
         
         this.setDepth(20);
         this.setAlpha(0.9);

@@ -29,98 +29,20 @@ class Frame extends Phaser.GameObjects.Sprite {
         //scene.input.mouse.disableContextMenu();
         
         //spacebar support
-        scene.input.keyboard.on('keyup-' + 'SPACE', function(event){
-            console.log("penis"); //this runs
-            if (this.charging) {
-                console.log("penis2"); //but everything in here doesnt
-                this.shoot();
+        scene.input.keyboard.on('keyup-' + 'SPACE', this.buttomUp, this);
 
-                this.charging = false;
-
-                this.setAlpha(0);
-
-                scene.tweens.add({
-                    targets: scene,
-                    cameraOffsetY: {from: -80, to: 0},
-                    cameraShake: {from: 5, to: 20},
-                    duration: 300,
-                    ease: 'Back.easeInOut',
-                });
-
-                this.scene.cameras.main.shake(100, 0.005);
-            }
-        });
-
-        scene.input.keyboard.on('keydown-' + 'SPACE', function(event){
-            console.log("fart"); //this runs
-            if (this.coolDown <= 0) {
-                console.log("fart2")// but everything in here doesnt
-                this.lock();
-
-                this.charging = true;
-
-                this.setAlpha(0.8);
-
-                scene.tweens.add({
-                    targets: scene,
-                    cameraOffsetY: {from: 0, to: -80},
-                    cameraShake: {from: 20, to: 5},
-                    duration: 200,
-                    ease: 'Cubic.easeOut',
-                });
-
-                scene.tweens.add({
-                    targets: this,
-                    scale: {from: 1.5, to: 1},
-                    duration: 100,
-                    ease: 'Cubic.easeOut',
-                });
-            }
-        });
+        scene.input.keyboard.on('keydown-' + 'SPACE', this.buttomDown, this);
 
         //mouse support
         scene.input.on('pointerup', function (pointer) {
-            if (this.charging) { //pointer.leftButtonReleased() 
-                this.shoot();
-
-                this.charging = false;
-
-                this.setAlpha(0);
-
-                scene.tweens.add({
-                    targets: scene,
-                    cameraOffsetY: {from: -80, to: 0},
-                    cameraShake: {from: 5, to: 20},
-                    duration: 300,
-                    ease: 'Back.easeInOut',
-                });
-
-                this.scene.cameras.main.shake(100, 0.005);
+            if (pointer.leftButtonReleased()) { //
+                this.buttomUp();
             }
         }, this);
 
         scene.input.on('pointerdown', function (pointer) {
-            if (this.coolDown <= 0) { //pointer.leftButtonDown() //scene.keySPACE.isDown
-                this.lock();
-
-                this.charging = true;
-
-                this.setAlpha(0.8);
-
-                scene.tweens.add({
-                    targets: scene,
-                    cameraOffsetY: {from: 0, to: -80},
-                    cameraShake: {from: 20, to: 5},
-                    duration: 200,
-                    ease: 'Cubic.easeOut',
-                });
-
-                scene.tweens.add({
-                    targets: this,
-                    scale: {from: 1.5, to: 1},
-                    duration: 100,
-                    ease: 'Cubic.easeOut',
-                });
+            if (pointer.leftButtonDown()) { // //scene.keySPACE.isDown
+                this.buttomDown();
             }
         }, this);
 
@@ -225,6 +147,51 @@ class Frame extends Phaser.GameObjects.Sprite {
 
     }
 
+    buttomDown() {
+        if (this.coolDown <= 0) {
+            this.lock();
+    
+            this.charging = true;
+    
+            this.setAlpha(0.8);
+    
+            scene.tweens.add({
+                targets: scene,
+                cameraOffsetY: {from: 0, to: -80},
+                cameraShake: {from: 20, to: 5},
+                duration: 200,
+                ease: 'Cubic.easeOut',
+            });
+    
+            scene.tweens.add({
+                targets: this,
+                scale: {from: 1.5, to: 1},
+                duration: 100,
+                ease: 'Cubic.easeOut',
+            });
+        }
+    }
+
+    buttomUp() {
+        if (this.charging) {
+            this.shoot();
+    
+            this.charging = false;
+    
+            this.setAlpha(0);
+    
+            scene.tweens.add({
+                targets: scene,
+                cameraOffsetY: {from: -80, to: 0},
+                cameraShake: {from: 5, to: 20},
+                duration: 300,
+                ease: 'Back.easeInOut',
+            });
+    
+            this.scene.cameras.main.shake(100, 0.005);
+        }
+    }
+    
     lock() {
         // only charge 5 ghost max
         if (this.lockedGhosts.length >= 5) {

@@ -80,13 +80,15 @@ class Ghost extends Phaser.GameObjects.Sprite {
         if (this.progress >= 1) {
             this.scene.damage();
 
-            console.log("ghost killed you haha");
-            this.scene.ghosts.remove(this, true);
-
             // screen shake
             this.scene.cameras.main.shake(200, 0.008);
-        }
 
+            // kill the visual 
+            this.lockHint.destroy();
+
+            console.log("ghost killed you haha");
+            this.scene.ghosts.remove(this, true);
+        }
         
         // scaling and depth sorting
         this.setDepth(10 * this.progress);

@@ -27,8 +27,60 @@ class Frame extends Phaser.GameObjects.Sprite {
         
         // bind mouse events
         //scene.input.mouse.disableContextMenu();
+        
+        //spacebar support
+        scene.input.keyboard.on('keyup-' + 'SPACE', function(event){
+            console.log("penis"); //this runs
+            if (this.charging) {
+                console.log("penis2"); //but everything in here doesnt
+                this.shoot();
+
+                this.charging = false;
+
+                this.setAlpha(0);
+
+                scene.tweens.add({
+                    targets: scene,
+                    cameraOffsetY: {from: -80, to: 0},
+                    cameraShake: {from: 5, to: 20},
+                    duration: 300,
+                    ease: 'Back.easeInOut',
+                });
+
+                this.scene.cameras.main.shake(100, 0.005);
+            }
+        });
+
+        scene.input.keyboard.on('keydown-' + 'SPACE', function(event){
+            console.log("fart"); //this runs
+            if (this.coolDown <= 0) {
+                console.log("fart2")// but everything in here doesnt
+                this.lock();
+
+                this.charging = true;
+
+                this.setAlpha(0.8);
+
+                scene.tweens.add({
+                    targets: scene,
+                    cameraOffsetY: {from: 0, to: -80},
+                    cameraShake: {from: 20, to: 5},
+                    duration: 200,
+                    ease: 'Cubic.easeOut',
+                });
+
+                scene.tweens.add({
+                    targets: this,
+                    scale: {from: 1.5, to: 1},
+                    duration: 100,
+                    ease: 'Cubic.easeOut',
+                });
+            }
+        });
+
+        //mouse support
         scene.input.on('pointerup', function (pointer) {
-            if (pointer.leftButtonReleased() && this.charging) {
+            if (this.charging) { //pointer.leftButtonReleased() 
                 this.shoot();
 
                 this.charging = false;
@@ -48,7 +100,7 @@ class Frame extends Phaser.GameObjects.Sprite {
         }, this);
 
         scene.input.on('pointerdown', function (pointer) {
-            if (pointer.leftButtonDown() && this.coolDown <= 0) {
+            if (this.coolDown <= 0) { //pointer.leftButtonDown() //scene.keySPACE.isDown
                 this.lock();
 
                 this.charging = true;
@@ -71,7 +123,6 @@ class Frame extends Phaser.GameObjects.Sprite {
                 });
             }
         }, this);
-
 
         // UI
         // this.cooldownBarBG = this.scene.add.existing(new Phaser.GameObjects.Rectangle(scene, this.x, this.y, 20, 150, 0x32a852)); 

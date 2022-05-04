@@ -17,8 +17,8 @@ class Menu extends Phaser.Scene {
             this.scene.start("play");
         });
 
-        this.titleSprite = this.add.image(game.config.width /2,  game.config.height / 8, 'title').setOrigin(0.5,0);
-        this.titleSprite.setScale(1 * (game.config.width/game.config.height));
+        this.titleSprite = this.add.image(game.config.width /2,  game.config.height / 2, 'title').setOrigin(0.5,0.5);
+        this.titleSprite.setScale(1.2 * (game.config.width/game.config.height));
 
 
         /*this.anims.create({

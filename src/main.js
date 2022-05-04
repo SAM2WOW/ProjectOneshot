@@ -7,14 +7,16 @@
 // - Spooky Picture Game Deluxe
 
 // Date completed:
-// - 5/2/2022
+// - 5/4/2022
 
 // Creative tilt:
-// - Beautiful Pixel Art
-// - Spooky Music
-// - Dynamic Sound Effects
 // - Pseudo 3D
-// 
+// - Beautiful Pixel Art
+// - Spooky Funky Music
+// - Dynamic Sound Effects
+// - Render Target for Camera Screen
+// - Juicy Effects
+// - Dynamic Screen Ratio (Mobile and PC compatible)
 
 var config = {
     type: Phaser.AUTO,

@@ -132,7 +132,7 @@ class Play extends Phaser.Scene {
             let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i, false);
             this.walls.add(wall);
 
-            let wallShadow = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall_shadow_' + type, 1.2/wallCount * i - 0.015);
+            let wallShadow = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall_shadow_' + type, 1.2/wallCount * i - 0.01);
             this.walls.add(wallShadow);
 
             // add a slick spawning effect

@@ -217,6 +217,9 @@ class Play extends Phaser.Scene {
             on: false
         });
 
+        //keys!
+        this.keySPACE = this.input.keyboard.addKey('SPACE');
+
     }
 
     update(time, delta) {

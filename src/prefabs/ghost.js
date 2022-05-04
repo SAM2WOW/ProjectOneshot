@@ -90,7 +90,7 @@ class Ghost extends Phaser.GameObjects.Sprite {
         }
         
         // scaling and depth sorting
-        this.setDepth(10 * this.progress);
+        this.setDepth(28 * this.progress);
         
         let space = this.scene.get3DSpace(this.xOffset, this.yOffset, time, this.progress);
         this.setScale(this.scene.lerp(0.01, 1, space.curvedProgress));

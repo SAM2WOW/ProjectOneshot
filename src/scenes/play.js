@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
     get3DSpace(xOffset, yOffset, time, progress) {
         let curvedProgress = progress ** 5;
         let x = game.config.width / 2 + xOffset * curvedProgress + this.lerp(game.turningOffset, 0, progress);
-        let y = game.config.height / 2 + yOffset * curvedProgress - Math.abs(Math.sin(time / 300) * 20) * (curvedProgress);
+        let y = game.config.height / 2 + yOffset * curvedProgress - Math.abs(Math.sin(time / 200) * 20) * (curvedProgress);
         return {x: x, y: y, curvedProgress: curvedProgress};
     }
     
@@ -66,7 +66,7 @@ class Play extends Phaser.Scene {
     create() {
         // player variables
         this.health = 3;
-        this.distance = 0;
+        distance = 0;
     
         // game states
         this.gameOver = false;
@@ -125,14 +125,17 @@ class Play extends Phaser.Scene {
             if (i % 4 == 0) {
                 type = Math.random() > 0.5 ? 2 : 3;
             }
-            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i);
+            let wall = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i, false);
             this.walls.add(wall);
 
+            let wallShadow = new Wall(this, game.config.width / 2, game.config.height / 2, 'wall' + type, 1.2/wallCount * i - 0.1);
+            this.walls.add(wallShadow);
+
             // add a slick spawning effect
-            wall.visible = true;
             wall.alpha = 0;
+            wallShadow.alpha = 0;
             this.tweens.add({
-                targets: wall,
+                targets: [wall, wallShadow],
                 duration: 1000,
                 delay: i * 100,
                 angle: {from: -90 + 12.8 * i, to: 0},
@@ -154,19 +157,19 @@ class Play extends Phaser.Scene {
         this.dynamicCamera = this.add.renderTexture(360, game.config.height / 2, game.config.width, game.config.width);
         this.dynamicCamera.setOrigin(0.5, 0.5);
         this.dynamicCamera.setDepth(110);
-        this.dynamicCamera.setDisplaySize(90, 70);
+        this.dynamicCamera.setDisplaySize(84, 66);
 
         // add frame
         this.frame = new Frame(this, game.config.width / 2, game.config.height / 2, 'frame');
         this.frame.setDepth(150);
         
         // add text
-        this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(this.distance) + 'm', {fontFamily: "PixelFont"});
+        this.distanceText = this.add.text(game.config.width / 2, 0, Math.round(distance) + 'm', {fontFamily: "PixelFont"});
         this.distanceText.setPosition(game.config.width / 2, 30);
         this.distanceText.setDepth(100);
         this.distanceText.setOrigin(0.5, 0);
         this.distanceText.setFontSize(40);
-        this.distanceText.setShadow(0, 2, '#000000', 0, false, true);
+        this.distanceText.setShadow(0, 2, '#1e2e67', 0, false, true);
         this.tweens.add({
             targets: this.distanceText,
             duration: 500,
@@ -242,7 +245,7 @@ class Play extends Phaser.Scene {
         // this.dynamicCamera.draw(this.children, 0, 0);
         this.dynamicCamera.draw(this.walls, 0, 0);
         this.dynamicCamera.draw(this.ghosts, 0, 0);
-        this.dynamicCamera.setPosition(this.cameraSprite.x + 10, this.cameraSprite.y + 25);
+        this.dynamicCamera.setPosition(this.cameraSprite.x + 9, this.cameraSprite.y + 24);
 
         // update ghosts
         this.ghosts.getChildren().forEach(ghost => {
@@ -253,8 +256,8 @@ class Play extends Phaser.Scene {
         this.frame.update(time, delta);
 
         // update distance traveled
-        this.distance += (delta / 16) * 0.0284;
-        this.distanceText.setText(Math.round(this.distance) + 'm');
+        distance += (delta / 16) * 0.0284;
+        this.distanceText.setText(Math.round(distance) + 'm');
     }
     
     makeTurn() {
@@ -306,8 +309,8 @@ class Play extends Phaser.Scene {
         });
 
         // spawn next ghost
-        let maxTime = this.lerp(5000, 1200, Phaser.Math.Clamp(this.distance / 100, 0, 1));
-        let minTime = this.lerp(2000, 800, Phaser.Math.Clamp(this.distance / 100, 0, 1));
+        let maxTime = this.lerp(5000, 1200, Phaser.Math.Clamp(distance / 100, 0, 1));
+        let minTime = this.lerp(2000, 800, Phaser.Math.Clamp(distance / 100, 0, 1));
         this.time.delayedCall(this.lerp(minTime, maxTime, Math.random()), () => {
             this.spawnGhost();
         });

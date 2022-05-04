@@ -62,6 +62,9 @@ const easyLevel = [
     "",
 ];
 
+// player score
+let distance = 0;
+
 // const resize = ()=>{
 //     game.scale.resize(window.innerWidth / 1.6875, window.innerHeight / 1.6875)
 // }

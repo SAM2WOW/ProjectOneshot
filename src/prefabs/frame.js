@@ -109,10 +109,17 @@ class Frame extends Phaser.GameObjects.Sprite {
 
             // effect for when the bar is just filled
             if (this.coolDown <= 0) {
-                this.cooldownBar.fillColor = 0x306082;
+                // this.cooldownBar.fillColor = 0x306082;
 
-                this.scene.time.delayedCall(50, () => {
-                    this.cooldownBar.fillColor = 0x1e2e67;
+                // this.scene.time.delayedCall(50, () => {
+                //     this.cooldownBar.fillColor = 0x1e2e67;
+                // });
+
+                this.scene.tweens.add({
+                    targets: this.cooldownBar,
+                    fillColor: {from: 0x1e2e67, to: 0x306082},
+                    duration: 50,
+                    yoyo: true,
                 });
             }
         }
@@ -214,13 +221,13 @@ class Frame extends Phaser.GameObjects.Sprite {
             cloest.lock();
             this.lockedGhosts.push(cloest);
 
-            this.scene.tweens.add({
-                targets: this.scene.cameraSprite,
-                duration: 100,
-                scale: {from: 3, to: 2.8},
-                ease: 'Circ.easeOut',
-                yoyo: true,
-            });
+            // this.scene.tweens.add({
+            //     targets: [this.scene.cameraSprite],
+            //     duration: 100,
+            //     scale: {from: 3, to: 2.8},
+            //     ease: 'Circ.easeOut',
+            //     yoyo: true,
+            // });
 
             // play explosion sound
             this.sfxfocus = this.scene.sound.add('focus');
